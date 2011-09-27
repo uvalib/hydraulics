@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Andrew Curley"]
   s.email       = ["andrew.curley@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{The Hydraulics Plguin}
+  s.description = %q{Workflow application}
 
   s.rubyforge_project = "hydraulics"
 
@@ -21,4 +21,13 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
   # s.add_runtime_dependency "rest-client"
+  # ---------------------------------------   
+
+  s.add_dependency "rails", "3.1"
+  s.add_dependency "sqlite3"
+  s.add_dependency "carmen"
+  s.add_dependency "activeadmin"
+  s.add_dependency "sunspot_rails"
+  s.add_dependency "nokogiri"
+
 end
