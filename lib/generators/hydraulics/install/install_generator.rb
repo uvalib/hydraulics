@@ -1,9 +1,9 @@
 module Hydraulics
-	module Generators
-		class InstallGenerator < Rails::Generators::Base
-			desc "Installs Hydraulics and generates the necessary migrations."
-
-			include Rails::Generators::Migration
+  module Generators
+    class InstallGenerator < Rails::Generators::Base
+      desc "Installs Hydraulics and generates the necessary migrations."
+      
+      include Rails::Generators::Migration
 
       def self.source_root
         File.expand_path("../templates", __FILE__)

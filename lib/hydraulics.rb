@@ -1,5 +1,5 @@
 require "hydraulics/version"
 
 module Hydraulics
-  # Your code goes here...
+  require 'hydraulics/engine' if defined?(Rails)
 end
