@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "3.1"
   s.add_dependency "sqlite3"
   s.add_dependency "carmen"
-  s.add_dependency "activeadmin"
   s.add_dependency "sunspot_rails"
   s.add_dependency "nokogiri"
 
