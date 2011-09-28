@@ -1,8 +1,12 @@
-require "hydraulics"
-require "rails"
+require 'hydraulics'
+require 'rails'
 
 module Hydraulics
   class Engine < Rails::Engine
     engine_name :hydraulics
+
+    # rake_tasks do
+    #   load "railties/tasks.rake"
+    # end
   end
 end
