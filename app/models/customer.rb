@@ -34,7 +34,7 @@ class Customer < ActiveRecord::Base
   
   has_one :billing_address
   
-  belongs_to :department
+  # belongs_to :department
   belongs_to :heard_about_service
   
   #------------------------------------------------------------------
@@ -56,11 +56,11 @@ class Customer < ActiveRecord::Base
               :if => 'self.heard_about_service_id', 
               :message => "association with this Customer is no longer valid because the Heard About Service object no longer exists."
             }     
-  validates :department, 
-            :presence => {
-              :if => 'self.department_id', 
-              :message => "association with this Customer is no longer valid because the Department object no longer exists."
-            }
+  # validates :department, 
+  #           :presence => {
+  #             :if => 'self.department_id', 
+  #             :message => "association with this Customer is no longer valid because the Department object no longer exists."
+  #           }
   
   #------------------------------------------------------------------
   # callbacks
