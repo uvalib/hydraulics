@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib/**/*", "app/**/*"]
+  s.require_paths = ["lib/**/*", "app/**/*", "validators/**/*"]
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
@@ -28,5 +28,6 @@ Gem::Specification.new do |s|
   s.add_dependency "carmen"
   s.add_dependency "sunspot_rails"
   s.add_dependency "nokogiri"
+  s.add_dependency "validates_timeliness", "~> 3.0.6" # https://github.com/adzap/validates_timeliness
 
 end
