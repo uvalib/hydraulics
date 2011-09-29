@@ -1,6 +1,6 @@
 class Checkin < ActiveRecord::Base
 
-	#------------------------------------------------------------------
+  #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------
   belongs_to :unit, :counter_cache => true
@@ -24,7 +24,7 @@ class Checkin < ActiveRecord::Base
 
   # Returns a string containing a brief, general description of this
   # class/model.
-  def Task.class_description
-    return 'Task represents a task pertaining to a Unit and performed by a Staff Member using a Workstation.'
+  def Checkin.class_description
+    return ''
   end
 end
