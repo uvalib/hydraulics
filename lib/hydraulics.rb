@@ -15,4 +15,3 @@ module Hydraulics
     "#{root}/lib/helpers"
   end
 end
-end
