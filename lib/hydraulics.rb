@@ -10,4 +10,9 @@ module Hydraulics
   def self.models_dir
     "#{root}/app/models"
   end
+
+  def self.helpers_dir
+    "#{root}/lib/helpers"
+  end
+end
 end
