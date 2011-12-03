@@ -45,6 +45,7 @@ class CreateMasterFiles < ActiveRecord::Migration
     add_index :master_files, :description, :length => 30
     add_index :master_files, :transcription_text, :length => 30
     add_index :master_files, :pid
+    add_index :master_files, [:unit_id, :filename]
     
   end
 end
