@@ -7,7 +7,6 @@
 #  order_id       :integer
 #  master_file_id :integer
 #  bibl_id        :integer
-#  ead_ref_id     :integer
 #  component_id   :integer
 #  active_error   :boolean         default(FALSE), not null
 #  pid            :string(255)
@@ -114,7 +113,7 @@ class AutomationMessage < ActiveRecord::Base
   end
 
   # Choice of parent for an AutomationMessage object is variable.  Since an AutomationMessage object
-  # can be associated with a MasterFile, Unit, Order, Bibl, Component or EadRef, we must impose a
+  # can be associated with a MasterFile, Unit, Order, Bibl or Component, we must impose a
   # priority list in case an AutomationMessage object is associated with more than one.  The preference is:
   #
   # MasterFile
@@ -122,7 +121,6 @@ class AutomationMessage < ActiveRecord::Base
   # Order
   # Bibl
   # Component
-  # EadRef
   def parent
     if self.master_file_id
       return MasterFile.find(master_file_id) 
@@ -134,8 +132,6 @@ class AutomationMessage < ActiveRecord::Base
       return Bibl.find(bibl_id)
     elsif self.component_id
       return Component.find(component_id)
-    elsif self.ead_ref_id
-      return EadRef.find(ead_ref_id)
     end
   end
 
