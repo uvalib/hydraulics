@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   # s.add_runtime_dependency "rest-client"
   # ---------------------------------------   
 
-  s.add_dependency "rails", "3.1.3"
+  s.add_dependency "rails", "3.1.0"
   s.add_dependency "sqlite3"
   s.add_dependency "carmen"
   s.add_dependency "nokogiri"
