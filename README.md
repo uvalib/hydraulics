@@ -6,7 +6,7 @@ This gem is designed to be a plugin used within your o
 ## Requirements
 
 * Ruby 1.9.2
-* Rails 3.1.0
+* Rails 3.1.3
 
 
 ## Installation Instructions
