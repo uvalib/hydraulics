@@ -14,6 +14,6 @@ This gem is designed to be a plugin used within your o
     rails g validates_timeliness:install
 is necessary to install a validation plugin utilized in Hydraulics models.
 
-    rails g hydraulics:install
+    rails g hydraulics
     
 will install necessary database migrations.
