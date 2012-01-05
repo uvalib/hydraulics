@@ -37,7 +37,6 @@ class MasterFile < ActiveRecord::Base
   belongs_to :unit, :counter_cache => true
 #  belongs_to :component
   
- # has_and_belongs_to_many :ead_refs
   has_many :automation_messages
 #  has_one :audio_tech_meta
   has_one :image_tech_meta
