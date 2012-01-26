@@ -73,7 +73,7 @@ class Order < ActiveRecord::Base
     lambda {|limit=5|
       order('date_request_submitted DESC').limit(limit)
     }
-  default_scope :include => [:agency, :invoices]
+  default_scope :include => [:agency]
    
   #------------------------------------------------------------------
   # validations
