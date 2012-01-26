@@ -37,7 +37,7 @@ class MasterFile < ActiveRecord::Base
   belongs_to :unit, :counter_cache => true
 #  belongs_to :component
   
-  has_many :automation_messages
+  has_many :automation_messages, :dependent => :destroy
 #  has_one :audio_tech_meta
   has_one :image_tech_meta
 #  has_one :video_tech_meta
@@ -51,13 +51,13 @@ class MasterFile < ActiveRecord::Base
   delegate :call_number, :title, :catalog_key, :barcode, :id,
     :to => :bibl, :allow_nil => true, :prefix => true
 
-  delegate :include_in_dl, :exclude_in_dl, :date_archived, :date_queued_for_ingest, :date_dl_deliverables_ready,
+  delegate :include_in_dl, :exclude_in_dl, :date_archived, :date_queued_for_ingest, :date_dl_deliverables_ready, :id,
     :to => :unit, :allow_nil => true, :prefix => true
 
   delegate :date_due, :date_order_approved, :date_request_submitted, :date_customer_notified, :id,
     :to => :order, :allow_nil => true, :prefix => true
     
-  delegate :full_name,
+  delegate :full_name, :id, :last_name, :first_name,
     :to => :customer, :allow_nil => true, :prefix => true
   
   #------------------------------------------------------------------
