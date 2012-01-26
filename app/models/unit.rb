@@ -42,6 +42,7 @@ class Unit < ActiveRecord::Base
   belongs_to :bibl, :counter_cache => true
   belongs_to :order, :counter_cache => true
   belongs_to :heard_about_resource
+  belongs_to :intended_use
 
   has_many :master_files
   has_many :automation_messages
@@ -60,7 +61,7 @@ class Unit < ActiveRecord::Base
   #------------------------------------------------------------------  
   scope :in_repo, where("date_dl_deliverables_ready IS NOT NULL").order("date_dl_deliverables_ready DESC")
   scope :ready_for_repo, where("include_in_dl IS NOT NULL AND availability_policy_id IS NOT NULL AND date_queued_for_ingest IS NULL")
-  default_scope :include => [:bibl]
+  default_scope :include => [:bibl, :intended_use]
 
   #------------------------------------------------------------------
   # validations
