@@ -36,12 +36,6 @@ class HeardAboutResource < ActiveRecord::Base
   scope :not_approved, where(:is_approved => false)
   scope :internal_use_only, where(:is_internal_use_only => true)
   scope :publicly_available, where(:is_internal_use_only => false)
-
-  #------------------------------------------------------------------
-  # aliases
-  #------------------------------------------------------------------
-  # Necessary for Active Admin to poplulate pulldown menu
-  alias_attribute :name, :description  
  
   #------------------------------------------------------------------
   # public class methods
