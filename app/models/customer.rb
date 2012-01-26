@@ -35,6 +35,7 @@ class Customer < ActiveRecord::Base
   has_one :billing_address
   
   # belongs_to :department
+  belongs_to :academic_status
   belongs_to :heard_about_service
   
   #------------------------------------------------------------------
