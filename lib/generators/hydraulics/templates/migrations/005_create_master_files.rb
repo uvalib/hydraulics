@@ -3,12 +3,13 @@ class CreateMasterFiles < ActiveRecord::Migration
     create_table :master_files do |t|
       
       # External Relationships
-      t.integer :availability_policy_id # Only for repository-bound objects.  Determines access policies for this digital object.  This value may be inherited from the object's parent (i.e. Unit)
-      t.integer :component_id
-      t.integer :ead_ref_id
-      t.string :tech_meta_type # Used to distinguish what kind of MasterFile object this is (i.e. image, audio, video, etc...)
-      t.integer :unit_id, :null => false, :default => 0  # required (zero will fail foreign key constraint)
-      t.integer :use_right_id # Only for repository-bound objects.  What rights for reuse does patron have this object discovered through DL.  This value may be inherited from the object's parent (i.e. Unit)
+      t.references :indexing_scenario
+      t.references :availability_policy
+      t.references :component
+      t.references :unit
+      t.references :use_right
+
+      # Counters
       t.integer :automation_messages_count
       
       # General Master File Information
@@ -28,9 +29,9 @@ class CreateMasterFiles < ActiveRecord::Migration
       t.text :rels_int
       t.text :solr, :limit => 16777215
       t.text :transcription_text
-
       t.datetime :date_ingested_into_dl
 
+      t.string :tech_meta_type # Used to distinguish what kind of MasterFile object this is (i.e. image, audio, video, etc...)
       t.timestamps
     end
     

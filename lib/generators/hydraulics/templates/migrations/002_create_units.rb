@@ -3,13 +3,15 @@ class CreateUnits < ActiveRecord::Migration
     create_table :units do |t|
 
       # External Relationships
-      t.integer :archive_id
-      t.integer :availability_policy_id # Determines access policies for those digital objects related to this Unit (i.e. MasterFile and Bibl objects).  In implementation, this value will not override values already set in MasterFile or Bibl classes but will be inherited if that value is empty.
-      t.integer :bibl_id
-      t.integer :heard_about_resource_id
-      t.integer :intended_use_id # This relationship governs the type (or lack) of deliverable created
-      t.integer :order_id, :null => false, :default => 0  # required (zero will fail foreign key constraint)
-      t.integer :use_right_id # What rights for reuse does patron have over MasterFiles related to this Unit discovered through DL.  In implementation, this value will not override values already set in MasterFile or Bibl classes but will be inhereited if that value is empty.
+      t.references :indexing_scenario
+      t.references :archive
+      t.references :availability_policy
+      t.references :bibl
+      t.references :heard_about_resource
+      t.references :order
+      t.references :use_right
+
+      # Counters
       t.integer :master_files_count, :default => 0
       t.integer :automation_messages_count, :default => 0
 
@@ -38,6 +40,7 @@ class CreateUnits < ActiveRecord::Migration
           
       t.timestamps
     end
+
     add_index :units, :order_id
     add_index :units, :bibl_id
     add_index :units, :date_archived
@@ -47,5 +50,6 @@ class CreateUnits < ActiveRecord::Migration
     add_index :units, :availability_policy_id
     add_index :units, :heard_about_resource_id
     add_index :units, :use_right_id
+    add_index :units, :indexing_scenario_id
   end
 end
