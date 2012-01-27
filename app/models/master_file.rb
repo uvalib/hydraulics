@@ -35,7 +35,8 @@ class MasterFile < ActiveRecord::Base
   # relationships
   #------------------------------------------------------------------
   belongs_to :unit, :counter_cache => true
-#  belongs_to :component
+  belongs_to :indexing_scenario
+ # belongs_to :component
   
   has_many :automation_messages, :dependent => :destroy
 #  has_one :audio_tech_meta

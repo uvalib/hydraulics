@@ -43,6 +43,7 @@ class Unit < ActiveRecord::Base
   belongs_to :order, :counter_cache => true
   belongs_to :heard_about_resource
   belongs_to :intended_use
+  belongs_to :indexing_scenario
 
   has_many :master_files
   has_many :automation_messages
