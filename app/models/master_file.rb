@@ -98,4 +98,27 @@ class MasterFile < ActiveRecord::Base
     return self.filename
   end
 
+
+  # Within the scope of a current MasterFile's Unit, return the MasterFile object
+  # that follows self.  Used to create links and relationships between objects.
+  def next
+    master_files_sorted = self.unit.master_files.sort_by {|mf| mf.filename}
+    if master_files_sorted.find_index(self) < master_files_sorted.length
+      return master_files_sorted[master_files_sorted.find_index(self)+1]
+    else
+      return nil
+    end
+  end
+
+
+  # Within the scope of a current MasterFile's Unit, return the MasterFile object
+  # that preceedes self.  Used to create links and relationships between objects.
+  def previous
+    master_files_sorted = self.unit.master_files.sort_by {|mf| mf.filename}
+    if master_files_sorted.find_index(self) > 0
+      return master_files_sorted[master_files_sorted.find_index(self)-1]
+    else
+      return nil
+    end
+  end
 end
