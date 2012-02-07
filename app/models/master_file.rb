@@ -49,7 +49,7 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   # delegation
   #------------------------------------------------------------------
-  delegate :call_number, :title, :catalog_key, :barcode, :id,
+  delegate :call_number, :title, :catalog_key, :barcode, :id, :creator_name,
     :to => :bibl, :allow_nil => true, :prefix => true
 
   delegate :include_in_dl, :exclude_in_dl, :date_archived, :date_queued_for_ingest, :date_dl_deliverables_ready, :id,
