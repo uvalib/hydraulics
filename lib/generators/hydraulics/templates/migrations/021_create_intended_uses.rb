@@ -6,5 +6,7 @@ class CreateIntendedUses < ActiveRecord::Migration
       t.boolean :is_approved
       t.timestamps
     end
+
+    add_foreign_key :units, :intended_uses
   end
 end

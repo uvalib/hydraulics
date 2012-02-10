@@ -4,5 +4,8 @@ class CreateComponents < ActiveRecord::Migration
       t.references :indexing_scenario
       t.timestamps
     end
+
+    add_foreign_key :master_files, :components
+    
   end
 end

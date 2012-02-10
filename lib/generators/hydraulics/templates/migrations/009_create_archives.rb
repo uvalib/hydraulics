@@ -9,5 +9,7 @@ class CreateArchives < ActiveRecord::Migration
     end
     
     add_index :archives, :name
+
+    add_foreign_key :units, :archives
   end
 end

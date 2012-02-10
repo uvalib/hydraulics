@@ -12,5 +12,7 @@ class CreateInvoices < ActiveRecord::Migration
     end
 
     add_index :invoices, :order_id
+
+    add_foreign_key :invoices, :orders
   end
 end

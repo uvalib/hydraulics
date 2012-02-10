@@ -19,5 +19,7 @@ class CreateAgencies < ActiveRecord::Migration
     end
     
     add_index :agencies, :name, :unique => true
+
+    add_foreign_key :orders, :agencies
   end
 end

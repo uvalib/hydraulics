@@ -53,5 +53,7 @@ class CreateUnits < ActiveRecord::Migration
     add_index :units, :heard_about_resource_id
     add_index :units, :use_right_id
     add_index :units, :indexing_scenario_id
+
+    add_foreign_key :units, :orders
   end
 end

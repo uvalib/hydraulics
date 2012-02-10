@@ -13,5 +13,9 @@ class CreateDeliveryMethods < ActiveRecord::Migration
     create_table :delivery_methods_orders, :id => false do |t|
       t.references :delivery_method, :order
     end
+
+    add_foreign_key :delivery_methods_orders, :delivery_methods
+    add_foreign_key :delivery_methods_orders, :orders
+    
   end
 end

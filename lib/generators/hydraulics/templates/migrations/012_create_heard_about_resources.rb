@@ -9,5 +9,7 @@ class CreateHeardAboutResources < ActiveRecord::Migration
     end
     
     add_index :heard_about_resources, :description
+
+    add_foreign_key :units, :heard_about_resources
   end
 end

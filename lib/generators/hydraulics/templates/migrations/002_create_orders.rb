@@ -46,5 +46,7 @@ class CreateOrders < ActiveRecord::Migration
     add_index :orders, :date_due
     add_index :orders, :date_archiving_complete
     add_index :orders, :date_order_approved
+
+    add_foreign_key :orders, :customers
   end
 end

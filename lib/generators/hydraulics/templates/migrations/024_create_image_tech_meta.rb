@@ -22,5 +22,7 @@ class CreateImageTechMeta < ActiveRecord::Migration
       t.decimal :focal_length
       t.timestamps
     end
+
+    add_foreign_key :image_tech_meta, :master_files
   end
 end
