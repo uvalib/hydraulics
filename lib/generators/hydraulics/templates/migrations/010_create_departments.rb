@@ -6,7 +6,7 @@ class CreateDepartments < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :departments, :name, :unique => truemm
+    add_index :departments, :name, :unique => true
 
     add_foreign_key :customers, :departments
     
