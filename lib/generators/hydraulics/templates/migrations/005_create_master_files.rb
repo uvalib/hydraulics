@@ -39,7 +39,6 @@ class CreateMasterFiles < ActiveRecord::Migration
     add_index :master_files, :filename
     add_index :master_files, :title
     add_index :master_files, :pid
-    add_index :master_files, [:unit_id, :filename]
 
     add_foreign_key :master_files, :units
     
