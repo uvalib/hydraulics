@@ -8,7 +8,7 @@ class CreateArchives < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :archives, :name
+    add_index :archives, :name, :unique => true
 
     add_foreign_key :units, :archives
   end
