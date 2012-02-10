@@ -3,11 +3,7 @@ class CreateMasterFiles < ActiveRecord::Migration
     create_table :master_files do |t|
       
       # External Relationships
-      t.references :indexing_scenario
-      t.references :availability_policy
-      t.references :component
-      t.references :unit
-      t.references :use_right
+      t.references :indexing_scenario, :availability_policy, :component, :unit, :use_right
 
       # Counters
       t.integer :automation_messages_count
@@ -42,8 +38,6 @@ class CreateMasterFiles < ActiveRecord::Migration
     add_index :master_files, :tech_meta_type
     add_index :master_files, :filename
     add_index :master_files, :title
-    add_index :master_files, :description, :length => 30
-    add_index :master_files, :transcription_text, :length => 30
     add_index :master_files, :pid
     add_index :master_files, [:unit_id, :filename]
 
