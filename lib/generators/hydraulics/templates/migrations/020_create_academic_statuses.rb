@@ -5,6 +5,8 @@ class CreateAcademicStatuses < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :academic_statuses, :name, :unique => true
+
     add_foreign_key :customers, :academic_statuses
     
   end
