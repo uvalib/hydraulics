@@ -19,7 +19,7 @@ class CreateBillingAddresses < ActiveRecord::Migration
     add_index :billing_address, :agency_id, :unique => true
     add_index :billing_address, :customer_id, :unique => true
 
-    add_foreign_key :billing_addresses, :agencies
-    add_foreign_key :billing_addresses, :customers
+    add_foreign_key :billing_address, :agencies
+    add_foreign_key :billing_address, :customers
   end 
 end
