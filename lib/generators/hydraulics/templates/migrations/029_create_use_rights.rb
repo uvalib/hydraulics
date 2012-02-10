@@ -7,7 +7,7 @@ class CreateUseRights < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :use_rights, :name
+    add_index :use_rights, :name, :unique => true
 
     add_foreign_key :units, :use_rights
   end
