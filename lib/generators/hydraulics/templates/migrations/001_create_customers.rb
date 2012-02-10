@@ -26,8 +26,5 @@ class CreateCustomers < ActiveRecord::Migration
     add_index :customers, :department_id
     add_index :customers, :heard_about_service_id
 
-    add_foreign_key :customers, :academic_statuses
-    add_foreign_key :customers, :departments
-    add_foreign_key :customers, :heard_about_services
   end
 end

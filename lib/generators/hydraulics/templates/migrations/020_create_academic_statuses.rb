@@ -4,5 +4,8 @@ class CreateAcademicStatuses < ActiveRecord::Migration
       t.string :name
       t.timestamps
     end
+
+    add_foreign_key :customers, :academic_statuses
+    
   end
 end

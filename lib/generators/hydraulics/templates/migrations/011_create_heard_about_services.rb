@@ -9,5 +9,8 @@ class CreateHeardAboutServices < ActiveRecord::Migration
     end
     
     add_index :heard_about_services, :description
+    
+    add_foreign_key :customers, :heard_about_services
+
   end
 end

@@ -7,5 +7,8 @@ class CreateDepartments < ActiveRecord::Migration
     end
     
     add_index :departments, :name
+
+    add_foreign_key :customers, :departments
+    
   end
 end
