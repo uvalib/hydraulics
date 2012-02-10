@@ -7,5 +7,7 @@ class CreateIndexingScenarios < ActiveRecord::Migration
       t.string :repository_url
       t.timestamps
     end
+
+    add_foreign_key :bibls, :indexing_scenarios
   end
 end
