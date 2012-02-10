@@ -4,7 +4,7 @@ class CreateDeliveryMethods < ActiveRecord::Migration
     create_table :delivery_methods do |t|
       t.string :label
       t.string :description
-      t.integer :is_internal_use_only
+      t.boolean :is_internal_use_only, :default => false, :null => false
       t.timestamps
     end
 
