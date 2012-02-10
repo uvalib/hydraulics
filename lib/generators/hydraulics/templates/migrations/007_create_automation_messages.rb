@@ -27,5 +27,11 @@ class CreateAutomationMessages < ActiveRecord::Migration
     add_index :automation_messages, :master_file_id
     add_index :automation_messages, :bibl_id
     add_index :automation_messages, :component_id
+
+    add_foreign_key :automation_messages, :bibls
+    add_foreign_key :automation_messages, :components
+    add_foreign_key :automation_messages, :master_files
+    add_foreign_key :automation_messages, :orders
+    add_foreign_key :automation_messages, :units
   end
 end
