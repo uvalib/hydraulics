@@ -1,8 +1,8 @@
 class CreateBillingAddresses < ActiveRecord::Migration
+
   def change
-    create_table :billing_addresses do |t|
-      t.integer :customer_id
-      t.integer :agency_id
+    create_table :billing_address do |t|
+      t.references :agency, :customer
       t.string :last_name
       t.string :first_name
       t.string :address_1
@@ -13,10 +13,13 @@ class CreateBillingAddresses < ActiveRecord::Migration
       t.string :post_code
       t.string :phone
       t.string :organization
-
       t.timestamps
     end
-    add_index :billing_addresses, :customer_id, :unique => true
-    add_index :billing_addresses, :agency_id, :unique => true
-  end
+
+    add_index :billing_address, :agency_id, :unique => true
+    add_index :billing_address, :customer_id, :unique => true
+
+    add_foreing_key :billing_addresses, :agencies
+    add_foreing_key :billing_addresses, :customers
+  end 
 end
