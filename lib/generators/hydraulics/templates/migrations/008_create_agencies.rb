@@ -13,11 +13,14 @@ class CreateAgencies < ActiveRecord::Migration
       t.string :country
       t.string :post_code
       t.string :phone
+      t.string :ancestry
+      t.string :names_depth_cache
       t.integer :orders_count, :default => 0
 
       t.timestamps
     end
     
+    add_index :agencies, :ancestry
     add_index :agencies, :name, :unique => true
 
     add_foreign_key :orders, :agencies
