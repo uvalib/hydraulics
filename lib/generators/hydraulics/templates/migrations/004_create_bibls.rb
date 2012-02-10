@@ -62,7 +62,7 @@ class CreateBibls < ActiveRecord::Migration
     add_index :bibls, :availability_policy_id
     add_index :bibls, :parent_bibl_id
 
-    add_foregin_key :units, :bibls
+    add_foreign_key :units, :bibls
     
   end
 end
