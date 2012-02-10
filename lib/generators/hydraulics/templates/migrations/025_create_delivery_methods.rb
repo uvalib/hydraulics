@@ -11,7 +11,7 @@ class CreateDeliveryMethods < ActiveRecord::Migration
     add_index :delivery_methods, :label
 
     create_table :delivery_methods_orders, :id => false do |t|
-      t.references :delivery_methods, :orders
+      t.references :delivery_method, :order
     end
   end
 end
