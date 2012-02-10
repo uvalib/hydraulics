@@ -27,26 +27,5 @@ class CreateAutomationMessages < ActiveRecord::Migration
     add_index :automation_messages, :master_file_id
     add_index :automation_messages, :bibl_id
     add_index :automation_messages, :component_id
-    # add_index :automation_messages, [ :unit_id, :message_type]
-    # add_index :automation_messages, [ :unit_id, :processor]
-    # add_index :automation_messages, [ :order_id, :message_type]
-    # add_index :automation_messages, [ :order_id, :processor]
-    # add_index :automation_messages, [ :master_file_id, :message_type]
-    # add_index :automation_messages, [ :master_file_id, :processor]
-    # add_index :automation_messages, [ :bibl_id, :message_type]
-    # add_index :automation_messages, [ :bibl_id, :processor]
-    # add_index :automation_messages, [ :component_id, :message_type]
-    # add_index :automation_messages, [ :component_id, :processor]
-    # add_index :automation_messages, [ :processor, :message_type]
-    # add_index :automation_messages, [ :unit_id, :processor, :message_type], :name => 'index_by_unit_processor_message_type'
-    # add_index :automation_messages, [ :order_id, :processor, :message_type], :name => 'index_by_order_processor_message_type'
-    # add_index :automation_messages, [ :master_file_id, :processor, :message_type], :name => 'index_by_master_file_processor_message_type'
-    # add_index :automation_messages, [ :bibl_id, :processor, :message_type], :name => 'index_by_bibl_processor_message_type'
-    # add_index :automation_messages, [ :component_id, :processor, :message_type], :name => 'index_by_component_processor_message_type'
-    # add_index :automation_messages, [ :unit_id, :processor, :workflow_type], :name => 'index_by_unit_processor_workflow_type'
-    # add_index :automation_messages, [ :order_id, :processor, :workflow_type], :name => 'index_by_order_processor_workflow_type'
-    # add_index :automation_messages, [ :master_file_id, :processor, :workflow_type], :name => 'index_by_master_file_processor_workflow_type'
-    # add_index :automation_messages, [ :bibl_id, :processor, :workflow_type], :name => 'index_by_bibl_processor_workflow_type'
-    # add_index :automation_messages, [ :component_id, :processor, :workflow_type], :name => 'index_by_component_processor_workflow_type'
   end
 end
