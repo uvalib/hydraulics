@@ -10,6 +10,8 @@ class CreateUnits < ActiveRecord::Migration
       t.references :heard_about_resource
       t.references :order
       t.references :use_right
+      t.references :intended_use
+      t.references :unit_import_source
 
       # Counters
       t.integer :master_files_count, :default => 0
