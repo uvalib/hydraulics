@@ -5,7 +5,7 @@ class CreateUnitImportSources < ActiveRecord::Migration
       t.references :unit
       t.string :standard # Iview, Bagit
       t.string :version # 0.97, 2
-      t.text :source # Entire XML file
+      t.text :source, :limit => 2147483647 # Entire XML file
       t.timestamps
     end
 
