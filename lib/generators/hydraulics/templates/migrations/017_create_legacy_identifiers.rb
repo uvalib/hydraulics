@@ -20,5 +20,8 @@ class CreateLegacyIdentifiers < ActiveRecord::Migration
     create_table :legacy_identifiers_master_files, :id => false do |t|
       t.references :legacy_identifier, :master_file
     end
+
+    add_index :legacy_identifiers_master_files, :legacy_identifier_id
+    add_index :legacy_identifiers_master_files, :master_file_id
   end
 end
