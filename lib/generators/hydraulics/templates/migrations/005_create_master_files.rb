@@ -37,7 +37,6 @@ class CreateMasterFiles < ActiveRecord::Migration
     
     add_index :master_files, :unit_id
     add_index :master_files, :component_id
-    add_index :master_files, :ead_ref_id
     add_index :master_files, :use_right_id
     add_index :master_files, :availability_policy_id
     add_index :master_files, :tech_meta_type
