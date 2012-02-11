@@ -15,11 +15,7 @@ class CreateBibls < ActiveRecord::Migration
       t.boolean :is_in_catalog, :null => false, :default => 0
       t.boolean :is_manuscript, :null => false, :default => 0
       t.boolean :is_personal_item, :null => false, :default => 0
-      t.integer :automation_messages_count, :default => 0
-      t.integer :orders_count, :default => 0
-      t.integer :units_count, :default => 0
-      t.integer :master_files_count, :default => 0
-          
+         
       # Catalog information, pulled from Blacklight/Solr, if available
       t.string :barcode
       t.string :call_number
@@ -49,6 +45,11 @@ class CreateBibls < ActiveRecord::Migration
       t.text :rels_int
       t.text :solr, :limit => 16777215
       t.datetime :date_ingested_into_dl
+
+      t.integer :automation_messages_count, :default => 0
+      t.integer :orders_count, :default => 0
+      t.integer :units_count, :default => 0
+      t.integer :master_files_count, :default => 0
           
       t.timestamps
     end

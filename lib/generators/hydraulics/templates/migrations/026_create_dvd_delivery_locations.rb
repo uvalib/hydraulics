@@ -7,7 +7,7 @@ class CreateDvdDeliveryLocations < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :dvd_delivery_locations, :name
+    add_index :dvd_delivery_locations, :name, :unique => true
     add_foreign_key :orders, :dvd_delivery_locations
   end
 end

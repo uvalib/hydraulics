@@ -7,7 +7,7 @@ class CreateComponentTypes < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :component_types, :name
+    add_index :component_types, :name, :unique => true
     
     add_foreign_key :components, :component_types
   end

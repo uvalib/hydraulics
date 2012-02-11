@@ -8,11 +8,14 @@ class CreateDeliveryMethods < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :delivery_methods, :label
+    add_index :delivery_methods, :label, :unique => true
 
     create_table :delivery_methods_orders, :id => false do |t|
       t.references :delivery_method, :order
     end
+
+    add_index :delivery_methods_orders, :delivery_method_id
+    add_index :delivery_methods_orders, :order_id
 
     add_foreign_key :delivery_methods_orders, :delivery_methods
     add_foreign_key :delivery_methods_orders, :orders

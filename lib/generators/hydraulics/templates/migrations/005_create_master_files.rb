@@ -20,7 +20,6 @@ class CreateMasterFiles < ActiveRecord::Migration
       t.text :dc
       t.text :desc_metadata
       t.boolean :discoverability, :null => false, :default => 0
-      t.boolean :locked_desc_metadata, :null => false, :default => 0
       t.string :pid
       t.text :rels_ext
       t.text :rels_int
@@ -37,10 +36,10 @@ class CreateMasterFiles < ActiveRecord::Migration
     add_index :master_files, :use_right_id
     add_index :master_files, :indexing_scenario_id
     add_index :master_files, :availability_policy_id
-    add_index :master_files, :tech_meta_type
     add_index :master_files, :filename
     add_index :master_files, :title
     add_index :master_files, :pid
+    add_index :master_files, :tech_meta_type
 
     add_foreign_key :master_files, :units
     

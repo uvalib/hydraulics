@@ -1,7 +1,7 @@
 class CreateImageTechMeta < ActiveRecord::Migration
   def change
     create_table :image_tech_meta do |t|
-      t.integer :master_file_id, :references => 'master_file' 
+      t.references :master_file
       t.string :image_format
       t.integer :width
       t.integer :height
@@ -23,6 +23,7 @@ class CreateImageTechMeta < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :image_tech_meta, :master_file_id
     add_foreign_key :image_tech_meta, :master_files
   end
 end

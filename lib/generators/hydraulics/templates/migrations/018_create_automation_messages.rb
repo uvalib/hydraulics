@@ -11,10 +11,10 @@ class CreateAutomationMessages < ActiveRecord::Migration
       t.string :app
       t.string :processor
       t.string :message_type
-      t.string :workflow_type
-      t.text :message
-      t.text :class_name
+      t.string :message
+      t.string :class_name
       t.text :backtrace
+      t.string :workflow_type
       t.timestamps
     end
     

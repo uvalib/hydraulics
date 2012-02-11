@@ -3,15 +3,7 @@ class CreateUnits < ActiveRecord::Migration
     create_table :units do |t|
 
       # External Relationships
-      t.references :indexing_scenario
-      t.references :archive
-      t.references :availability_policy
-      t.references :bibl
-      t.references :heard_about_resource
-      t.references :order
-      t.references :use_right
-      t.references :intended_use
-      t.references :unit_import_source
+      t.references :indexing_scenario, :archive, :availability_policy, :bibl, :heard_about_resource, :order, :use_right, :intended_use
 
       # Counters
       t.integer :master_files_count, :default => 0
@@ -25,7 +17,7 @@ class CreateUnits < ActiveRecord::Migration
       t.string :deliverable_format
       t.string :deliverable_resolution
       t.string :deliverable_resolution_unit
-      t.string :patron_source_url
+      t.text :patron_source_url
       t.boolean :remove_watermark, :null => false, :default => 0 # Override default inclusion of watermark on certain image deliverables
       t.text :special_instructions
       t.text :staff_notes
