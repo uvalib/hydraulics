@@ -3,7 +3,8 @@ class CreateMasterFiles < ActiveRecord::Migration
     create_table :master_files do |t|
       
       # External Relationships
-      t.references :indexing_scenario, :availability_policy, :component, :unit, :use_right
+      t.references :availability_policy, :component, :unit, :use_right
+      t.integer :indexing_scenario_id, :references => 'indexing_scenario'
 
       # Counters
       t.integer :automation_messages_count
