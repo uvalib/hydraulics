@@ -1,22 +1,19 @@
 class Bibl < ActiveRecord::Base
-   
-  #------------------------------------------------------------------
-  # validations
-  #------------------------------------------------------------------
-  # validates_datetime :date_external_update
-
   #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------
-  has_many :units
-  has_many :orders, :through => :units
-  has_many :master_files, :through => :units
-  has_many :customers, :through => :orders
-  has_many :components
-  has_many :ead_refs
-  has_many :automation_messages
+  belongs_to :availability_policy, :counter_cache => true
+  belongs_to :indexing_scenario, :counter_cache => true
+  
+  has_and_belongs_to_many :legacy_identifiers
 
-  belongs_to :indexing_scenario
+  has_many :agencies, :through => :orders
+  has_many :automation_messages
+  has_many :components
+  has_many :customers, :through => :orders
+  has_many :master_files, :through => :units
+  has_many :orders, :through => :units
+  has_many :units
 
   #------------------------------------------------------------------
   # scopes
@@ -26,6 +23,18 @@ class Bibl < ActiveRecord::Base
   scope :not_approved, where(:is_approved => false)
   scope :has_exemplars, where("exemplar is NOT NULL")
   scope :need_exemplars, where("exemplar is NULL")
+
+  #------------------------------------------------------------------
+  # validations
+  #------------------------------------------------------------------
+  validates :availability_policy, :presence => {
+    :if => 'self.availability_policy_id',
+    :message => "association with this AvailabilityPolicy is no longer valid because it no longer exists."
+  }
+  validates :indexing_scenario, :presence => {
+    :if => 'self.indexing_scenario_id',
+    :message => "association with this IndexingScenario is no longer valid because it no longer exists."
+  }
   
   #------------------------------------------------------------------
   # callbacks
@@ -113,10 +122,6 @@ class Bibl < ActiveRecord::Base
     else
       return true
     end      
-  end
-  
-  def ead_refs?
-    return false unless ead_refs.any?  
   end
 
   def in_dl?
