@@ -1,53 +1,20 @@
-# == Schema Information
-#
-# Table name: units
-#
-#  id                             :integer         not null, primary key
-#  archive_id                     :integer
-#  availability_policy_id         :integer
-#  bibl_id                        :integer
-#  heard_about_resource_id        :integer
-#  intended_use_id                :integer
-#  order_id                       :integer         default(0), not null
-#  use_right_id                   :integer
-#  master_files_count             :integer         default(0)
-#  automation_messages_count      :integer         default(0)
-#  date_archived                  :datetime
-#  date_materials_received        :datetime
-#  date_materials_returned        :datetime
-#  date_patron_deliverables_ready :datetime
-#  deliverable_format             :string(255)
-#  deliverable_resolution         :string(255)
-#  deliverable_resolution_unit    :string(255)
-#  patron_source_url              :string(255)
-#  remove_watermark               :boolean         default(FALSE), not null
-#  special_instructions           :text
-#  staff_notes                    :text
-#  unit_extent_estimated          :integer
-#  unit_extent_actual             :integer
-#  unit_status                    :string(255)
-#  date_queued_for_ingest         :datetime
-#  date_dl_deliverables_ready     :datetime
-#  master_file_discoverability    :boolean         default(FALSE), not null
-#  exclude_from_dl                :boolean         default(FALSE), not null
-#  include_in_dl                  :boolean         default(FALSE), not null
-#  created_at                     :datetime
-#  updated_at                     :datetime
-#
-
 class Unit < ActiveRecord::Base
   #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------
+  belongs_to :archive, :counter_cache => true
+  belongs_to :availability_policy, :counter_cache => true
   belongs_to :bibl, :counter_cache => true
+  belongs_to :heard_about_resource, :counter_cache => true
+  belongs_to :intended_use, :counter_cache => true
+  belongs_to :indexing_scenario, :counter_cache => true
   belongs_to :order, :counter_cache => true
-  belongs_to :heard_about_resource
-  belongs_to :intended_use
-  belongs_to :indexing_scenario
+  belongs_to :use_right, :counter_cache => true
 
   has_many :master_files
   has_many :automation_messages
 
+  has_one :agency, :through => :order
   has_one :customer, :through => :order
 
   delegate :call_number, :title, :catalog_key, :barcode, :pid,
@@ -67,6 +34,38 @@ class Unit < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
+  validates :intended_use_id, :order_id, :presence => true
+  validates :patron_source_url, :format => {:with => URI::regexp(['http','https'])}
+  validates :archive, :presence => {
+    :if => 'self.archive_id',
+    :message => "association with this Archive is no longer valid because it no longer exists."
+  }
+  validates :availability_policy, :presence => {
+    :if => 'self.availability_policy_id',
+    :message => "association with this AvailabilityPolicy is no longer valid because it no longer exists."
+  }
+  validates :bibl, :presence => {
+    :if => 'self.bibl_id',
+    :message => "association with this Bibl is no longer valid because it no longer exists."
+  }
+  validates :heard_about_resource, :presence => {
+    :if => 'self.heard_about_resource_id',
+    :message => "association with this HeardAboutResource is no longer valid because it no longer exists."
+  }
+  validates :intended_use, :presence => {
+     :message => "association with this IntendedUse is no longer valid because it no longer exists."
+  }
+  validates :indexing_scenario, :presence => {
+    :if => 'self.indexing_scenario_id',
+    :message => "association with this IndexingScenario is no longer valid because it no longer exists."
+  }
+  validates :order, :presence => {
+    :message => "association with this Order is no longer valid because it no longer exists."
+  }
+  validates :use_right, :presence => {
+    :if => 'self.use_right_id',
+    :message => "association with this UseRight is no longer valid because it no longer exists."
+  }
  
   #------------------------------------------------------------------
   # callbacks
