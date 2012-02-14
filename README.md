@@ -1,6 +1,6 @@
 # Welcome to Hydraulics
 
-This gem is designed to be a plugin used within your o
+This gem is designed to be a plugin used within your own application
 
 
 ## Requirements
@@ -8,6 +8,14 @@ This gem is designed to be a plugin used within your o
 * Ruby 1.9.2
 * Rails 3.1.3
 
+If you are using an earlier version fo Fedora (i.e. 12), you must add to the Gemfile:
+
+    gem 'execjs'
+    gem 'therubyracer'
+
+For the time being, you must include in the local app's Gemfile
+
+    gem 'foreigner'
 
 ## Installation Instructions
 
