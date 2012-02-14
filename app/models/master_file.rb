@@ -1,47 +1,19 @@
-# == Schema Information
-#
-# Table name: master_files
-#
-#  id                        :integer         not null, primary key
-#  availability_policy_id    :integer
-#  component_id              :integer
-#  ead_ref_id                :integer
-#  tech_meta_type            :string(255)
-#  unit_id                   :integer         default(0), not null
-#  use_right_id              :integer
-#  automation_messages_count :integer
-#  description               :string(255)
-#  filename                  :string(255)
-#  filesize                  :integer
-#  md5                       :string(255)
-#  title                     :string(255)
-#  dc                        :text
-#  desc_metadata             :text
-#  discoverability           :boolean         default(FALSE), not null
-#  locked_desc_metadata      :boolean         default(FALSE), not null
-#  pid                       :string(255)
-#  rels_ext                  :text
-#  rels_int                  :text
-#  solr                      :text(16777215)
-#  transcription_text        :text
-#  date_ingested_into_dl     :datetime
-#  created_at                :datetime
-#  updated_at                :datetime
-#
-
 class MasterFile < ActiveRecord::Base
 
   #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------
+  belongs_to :availability_policy, :counter_cache => true
+  belongs_to :component, :counter_cache => true
+  belongs_to :indexing_scenario, :counter_cache => true
   belongs_to :unit, :counter_cache => true
-  belongs_to :indexing_scenario
- # belongs_to :component
+  belongs_to :use_right, :counter_cache => true
+
+  has_and_belongs_to_many :legacy_identifiers
   
   has_many :automation_messages, :dependent => :destroy
-#  has_one :audio_tech_meta
+
   has_one :image_tech_meta
-#  has_one :video_tech_meta
   has_one :order, :through => :unit
   has_one :bibl, :through => :unit
   has_one :customer, :through => :order
@@ -64,7 +36,26 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------  
-  # validates :filename, :unit_id, :title, :filesize, :presence => true
+  validates :filename, :unit_id, :title, :filesize, :presence => true
+  validates :availability_policy, :presence => {
+    :if => 'self.availability_policy_id',
+    :message => "association with this AvailabilityPolicy is no longer valid because it no longer exists."
+  }
+  validates :component, :presence => {
+    :if => 'self.component_id',
+    :message => "association with this Component is no longer valid because it no longer exists."
+  }
+  validates :indexing_scenario, :presence => {
+    :if => 'self.indexing_scenario_id',
+    :message => "association with this IndexingScenario is no longer valid because it no longer exists."
+  }
+  validates :unit, :presence => {
+    :message => "association with this Unit is no longer valid because it no longer exists."
+  }
+  validates :use_right, :presence => {
+    :if => 'self.use_right_id',
+    :message => "association with this Use is no longer valid because it no longer exists."
+  }
 
   #------------------------------------------------------------------
   # callbacks
