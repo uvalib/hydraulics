@@ -5,6 +5,11 @@ class CreateIndexingScenarios < ActiveRecord::Migration
       t.string :pid
       t.string :datastream_name
       t.string :repository_url
+      t.integer :bibls_count, :default => 0
+      t.integer :components_count, :default => 0
+      t.integer :master_files_count, :default => 0
+      t.integer :units_count, :default => 0
+      
       t.timestamps
     end
 

@@ -1,9 +1,13 @@
 class CreateUnits < ActiveRecord::Migration
+
   def change
     create_table :units do |t|
 
       # External Relationships
-      t.references :indexing_scenario, :archive, :availability_policy, :bibl, :heard_about_resource, :order, :use_right, :intended_use
+      # Note: Bibl is not a required reference because incoming patron requests create Unit records but no Bibl records.
+      t.references :archive, :availability_policy, :bibl, :heard_about_resource, :indexing_scenario, :use_right # non-required references
+      t.integer :order_id, :default => 0, :null => false # required reference (zero will fail foreign key constraint)
+      t.integer :intended_use_id, :default => 0, :null => false # required reference (zero will fail foreign key constraint)
 
       # Counters
       t.integer :master_files_count, :default => 0
@@ -35,16 +39,16 @@ class CreateUnits < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :units, :order_id
+    add_index :units, :archive_id
+    add_index :units, :availability_policy_id
     add_index :units, :bibl_id
     add_index :units, :date_archived
     add_index :units, :date_dl_deliverables_ready
-    add_index :units, :intended_use_id
-    add_index :units, :archive_id
-    add_index :units, :availability_policy_id
     add_index :units, :heard_about_resource_id
-    add_index :units, :use_right_id
     add_index :units, :indexing_scenario_id
+    add_index :units, :intended_use_id
+    add_index :units, :order_id
+    add_index :units, :use_right_id
 
     add_foreign_key :units, :orders
   end

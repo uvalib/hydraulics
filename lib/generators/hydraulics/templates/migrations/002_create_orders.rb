@@ -3,9 +3,8 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
 
       # External Relationships
-      t.integer :agency_id
-      t.integer :customer_id, :null => false, :default => 0  # required (zero will fail foreign key constraint)
-      t.integer :dvd_delivery_location_id # If item is burned to DVD, this ties to a table managing the pickup location or use of postal service
+      t.references :agency, :dvd_delivery_location # non-required references
+      t.integer :customer_id, :null => false, :default => 0  # required reference (zero will fail foreign key constraint)
       t.integer :units_count, :default => 0
       t.integer :invoices_count, :default => 0
       t.integer :automation_messages_count, :default => 0

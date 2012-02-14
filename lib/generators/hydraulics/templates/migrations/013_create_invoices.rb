@@ -1,7 +1,7 @@
 class CreateInvoices < ActiveRecord::Migration
   def change
     create_table :invoices do |t|
-      t.integer :order_id
+      t.integer :order_id, :default => 0, :null => false
       t.datetime :date_invoice_sent
       t.decimal :fee_amount_paid
       t.datetime :date_second_invoice_sent

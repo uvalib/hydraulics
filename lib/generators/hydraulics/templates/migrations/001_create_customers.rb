@@ -1,7 +1,7 @@
 class CreateCustomers < ActiveRecord::Migration
   def change
     create_table :customers do |t|
-      t.references :department, :academic_status, :heard_about_service
+      t.references :department, :academic_status, :heard_about_service # non-required references
       t.string :last_name
       t.string :first_name
       t.string :address_1

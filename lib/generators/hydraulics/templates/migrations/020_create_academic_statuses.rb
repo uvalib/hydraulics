@@ -2,6 +2,8 @@ class CreateAcademicStatuses < ActiveRecord::Migration
   def change
     create_table :academic_statuses do |t|
       t.string :name
+      t.integer :customers_count, :default => 0
+      
       t.timestamps
     end
 

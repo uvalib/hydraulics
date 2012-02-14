@@ -3,11 +3,11 @@ class CreateMasterFiles < ActiveRecord::Migration
     create_table :master_files do |t|
       
       # External Relationships
-      t.references :availability_policy, :component, :unit, :use_right
-      t.integer :indexing_scenario_id, :references => 'indexing_scenario'
+      t.references :availability_policy, :component, :indexing_scenario, :use_right
+      t.integer :unit_id, :default => 0, :null => false
 
       # Counters
-      t.integer :automation_messages_count
+      t.integer :automation_messages_count, :default => 0
       
       # General Master File Information
       t.string :description
@@ -19,13 +19,14 @@ class CreateMasterFiles < ActiveRecord::Migration
       # DL objects
       t.text :dc
       t.text :desc_metadata
-      t.boolean :discoverability, :null => false, :default => 0
+      t.boolean :discoverability, :default => false # MasterFiles are by default not uniquely discoverable
       t.string :pid
       t.text :rels_ext
       t.text :rels_int
       t.text :solr, :limit => 16777215
       t.text :transcription_text
       t.datetime :date_ingested_into_dl
+      t.datetime :date_archived
 
       t.string :tech_meta_type # Used to distinguish what kind of MasterFile object this is (i.e. image, audio, video, etc...)
       t.timestamps

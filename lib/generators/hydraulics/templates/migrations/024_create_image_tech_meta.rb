@@ -1,7 +1,7 @@
 class CreateImageTechMeta < ActiveRecord::Migration
   def change
     create_table :image_tech_meta do |t|
-      t.references :master_file
+      t.integer :master_file_id, :default => 0, :null => false
       t.string :image_format
       t.integer :width
       t.integer :height

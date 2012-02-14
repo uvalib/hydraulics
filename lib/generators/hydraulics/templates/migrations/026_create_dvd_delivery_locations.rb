@@ -4,6 +4,7 @@ class CreateDvdDeliveryLocations < ActiveRecord::Migration
     create_table :dvd_delivery_locations do |t|
       t.string :name
       t.text :email_desc
+      t.integer :orders_count, :default => 0
       t.timestamps
     end
 

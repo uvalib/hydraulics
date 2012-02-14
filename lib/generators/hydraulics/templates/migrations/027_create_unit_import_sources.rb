@@ -2,7 +2,7 @@ class CreateUnitImportSources < ActiveRecord::Migration
 
   def change
     create_table :unit_import_sources do |t|
-      t.references :unit
+      t.integer :unit_id, :default => 0, :null => false
       t.string :standard # Iview, Bagit
       t.string :version # 0.97, 2
       t.text :source, :limit => 2147483647 # Entire XML file

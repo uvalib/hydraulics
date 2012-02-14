@@ -4,6 +4,7 @@ class CreateHeardAboutResources < ActiveRecord::Migration
       t.string :description
       t.boolean :is_approved, :null => false, :default => 0
       t.boolean :is_internal_use_only, :null => false, :default => 0
+      t.integer :units_count, :default => 0
 
       t.timestamps
     end

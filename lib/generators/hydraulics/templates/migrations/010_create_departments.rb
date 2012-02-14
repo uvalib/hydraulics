@@ -2,6 +2,7 @@ class CreateDepartments < ActiveRecord::Migration
   def change
     create_table :departments do |t|
       t.string :name
+      t.integer :customers_count, :default => 0
 
       t.timestamps
     end

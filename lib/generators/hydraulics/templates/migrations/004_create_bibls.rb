@@ -3,8 +3,7 @@ class CreateBibls < ActiveRecord::Migration
     create_table :bibls do |t|
   
       # External References
-      t.references :indexing_scenario
-      t.references :availability_policy
+      t.references :indexing_scenario, :availability_policy
       t.integer :parent_bibl_id, :null => false, :default => 0, :references => nil
       
       # General information (i.e. fields never derived from outside source)
@@ -19,7 +18,7 @@ class CreateBibls < ActiveRecord::Migration
       # Catalog information, pulled from Blacklight/Solr, if available
       t.string :barcode
       t.string :call_number
-      t.string :catalog_id, :references => nil  # skip automatic creation of foreign key constraint based on column name ending with "_id" (foreign_key_migrations plugin)
+      t.string :catalog_key
       t.text :citation
       t.integer :copy
       t.string :creator_name
@@ -38,7 +37,7 @@ class CreateBibls < ActiveRecord::Migration
       # DL Objects Only
       t.text :dc
       t.text :desc_metadata
-      t.boolean :discoverability, :null => false, :default => 1 # The defaul for Bibl objects is that they are discoverable
+      t.boolean :discoverability, :default => true # The defaul for Bibl objects is that they are discoverable
       t.string :exemplar
       t.string :pid # All Bibl objects get PIDs; only used if Bibl object is ingested into repository
       t.text :rels_ext
@@ -56,7 +55,7 @@ class CreateBibls < ActiveRecord::Migration
     
     add_index :bibls, :barcode
     add_index :bibls, :call_number
-    add_index :bibls, :catalog_id
+    add_index :bibls, :catalog_key
     add_index :bibls, :pid
     add_index :bibls, :title
     add_index :bibls, :indexing_scenario_id

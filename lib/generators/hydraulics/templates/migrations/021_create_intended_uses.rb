@@ -4,6 +4,8 @@ class CreateIntendedUses < ActiveRecord::Migration
       t.string :description
       t.boolean :is_internal_use_only, :default => false, :null => false
       t.boolean :is_approved, :default => false, :null => false
+      t.integer :units_count, :default => 0
+      
       t.timestamps
     end
 
