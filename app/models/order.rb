@@ -1,39 +1,3 @@
-# == Schema Information
-#
-# Table name: orders
-#
-#  id                                 :integer         not null, primary key
-#  agency_id                          :integer
-#  customer_id                        :integer         default(0), not null
-#  dvd_delivery_location_id           :integer
-#  units_count                        :integer         default(0)
-#  invoices_count                     :integer         default(0)
-#  automation_messages_count          :integer         default(0)
-#  date_canceled                      :datetime
-#  date_deferred                      :datetime
-#  date_due                           :date
-#  date_fee_estimate_sent_to_customer :datetime
-#  date_order_approved                :datetime
-#  date_permissions_given             :datetime
-#  date_started                       :datetime
-#  date_request_submitted             :datetime
-#  entered_by                         :string(255)
-#  fee_actual                         :decimal(7, 2)
-#  fee_estimated                      :decimal(7, 2)
-#  is_approved                        :boolean         default(FALSE), not null
-#  order_status                       :string(255)
-#  order_title                        :string(255)
-#  special_instructions               :text
-#  staff_notes                        :text
-#  date_archiving_complete            :datetime
-#  date_customer_notified             :datetime
-#  date_finalization_begun            :datetime
-#  date_patron_deliverables_complete  :datetime
-#  email                              :text
-#  created_at                         :datetime
-#  updated_at                         :datetime
-#
-
 class Order < ActiveRecord::Base
 
   ORDER_STATUSES = %w[requested deferred canceled approved]
@@ -43,15 +7,12 @@ class Order < ActiveRecord::Base
   #------------------------------------------------------------------
   belongs_to :agency, :counter_cache => true
   belongs_to :customer, :counter_cache => true
-  # belongs_to :dvd_delivery_location
+  belongs_to :dvd_delivery_location, :counter_cache => true
   
   has_many :automation_messages
   has_many :bibls, :through => :units
   has_many :invoices
   has_many :master_files, :through => :units
-  # has_many :master_files_in_dl,
-  #          :class_name => "MasterFile",
-  #          :conditions => { :d => true }
   has_many :units
 
   #------------------------------------------------------------------
@@ -69,6 +30,8 @@ class Order < ActiveRecord::Base
   scope :deferred, where("order_status = 'deferred'")
   scope :in_process, where("date_archiving_complete is null").where("order_status = 'approved'")
   scope :awaiting_approval, where("order_status = 'requested'")
+  scope :ready_for_delivery, where("email IS NOT NULL and date_customer_notified IS NULL")
+  scope :ready_for_dvd_burning, where("")
   scope :recent, 
     lambda {|limit=5|
       order('date_request_submitted DESC').limit(limit)
@@ -78,25 +41,22 @@ class Order < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
-  validates :customer_id, 
-            :date_request_submitted, 
-            :date_due, 
-            :presence => true
+  validates :customer_id, :date_due, :date_request_submitted, :presence => true
             
-  validates :customer, 
-            :presence => {
-              :message => "association with this Customer is no longer valid because the Customer object no longer exists."
-            }
-  validates :agency, 
-            :presence => {
-              :if => 'self.agency_id',
-              :message => "association with this Agency is no longer valid because the Agency object no longer exists."
-            }
-
+  validates :customer, :presence => {
+    :message => "association with this Customer is no longer valid because the Customer object no longer exists." 
+  }
+  validates :agency, :presence => {
+    :if => 'self.agency_id',
+    :message => "association with this Agency is no longer valid because the Agency object no longer exists."
+  }
+  validates :dvd_delivery_location, :presence => {
+    :if => 'self.dvd_delivery_location_id',
+    :message => "assocation with this DvdDeliveryLocation is no longer valid because the DvdDeliveryLocation object no longer exists."
+  }
   validates :order_title, :uniqueness => true
-  validates :fee_estimated, 
-            :fee_actual, 
-            :numericality => {:greater_than => 0, :allow_nil => true}
+  
+  validates :fee_estimated, :fee_actual, :numericality => {:greater_than => 0, :allow_nil => true}
 
   validates :order_status, :inclusion => { :in => ORDER_STATUSES, 
     :message => 'must be one of these values: ' + ORDER_STATUSES.join(", ")}
@@ -134,6 +94,11 @@ class Order < ActiveRecord::Base
   #------------------------------------------------------------------
   # scopes
   #------------------------------------------------------------------
+
+  #------------------------------------------------------------------
+  # aliases
+  #------------------------------------------------------------------
+  alias_attribute :name, :id
   
   #------------------------------------------------------------------
   # serializations
@@ -187,11 +152,6 @@ class Order < ActiveRecord::Base
     return invoices.any?
   end
 
-  # Order must return a name for identification purposes
-  def name
-    return id
-  end
-  
   # Returns this object's parent object.
   # def parent
   #     return self.customer
