@@ -18,10 +18,9 @@ class ImageTechMeta < ActiveRecord::Base
   validates :master_file_id, :presence => true
   validates :master_file_id, :uniqueness => true
   validates :resolution, :width, :height, :depth, :numericality => {:greater_than => 0, :allow_nil => true}
-  validates :master_file, 
-          :presence => {
-            :message => "association with this MasterFile is no longer valid because the MasterFile object no longer exists."
-          }
+  validates :master_file, :presence => {
+    :message => "association with this MasterFile is no longer valid because the MasterFile object no longer exists."
+  }
 
 
   # validates_inclusion_of :image_format,

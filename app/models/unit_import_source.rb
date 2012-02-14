@@ -10,9 +10,8 @@ class UnitImportSource < ActiveRecord::Base
   #------------------------------------------------------------------
   validates :unit_id, :presence => true
   validates :unit, :presence => {
-            :if => 'self.unit_id', 
-            :message => "association with this Unit is no longer valid because the Unit object no longer exists."
-            }
+    :message => "association with this Unit is no longer valid because the Unit object no longer exists."
+  }
 
   #------------------------------------------------------------------
   # callbacks
