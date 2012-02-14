@@ -1,30 +1,11 @@
-# == Schema Information
-#
-# Table name: customers
-#
-#  id                     :integer         not null, primary key
-#  heard_about_service_id :integer
-#  last_name              :string(255)
-#  first_name             :string(255)
-#  address_1              :string(255)
-#  address_2              :string(255)
-#  city                   :string(255)
-#  state                  :string(255)
-#  country                :string(255)
-#  post_code              :string(255)
-#  phone                  :string(255)
-#  email                  :string(255)
-#  organization           :string(255)
-#  orders_count           :integer         default(0)
-#  created_at             :datetime
-#  updated_at             :datetime
-#
-
 class Customer < ActiveRecord::Base
-
   #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------
+  belongs_to :academic_status, :counter_cache => true
+  belongs_to :department, :counter_cache => true
+  belongs_to :heard_about_service, :counter_cache => true
+  
   has_many :orders
   has_many :requests, :class_name => 'Order', :conditions => ['orders.is_approved = ?', false]
   has_many :units, :through => :orders
@@ -33,10 +14,6 @@ class Customer < ActiveRecord::Base
   has_many :invoices, :through => :orders
   
   has_one :billing_address
-  
-  # belongs_to :department
-  belongs_to :academic_status
-  belongs_to :heard_about_service
   
   #------------------------------------------------------------------
   # validations
@@ -55,13 +32,19 @@ class Customer < ActiveRecord::Base
   validates :heard_about_service, 
             :presence => {
               :if => 'self.heard_about_service_id', 
-              :message => "association with this Customer is no longer valid because the Heard About Service object no longer exists."
-            }     
-  # validates :department, 
-  #           :presence => {
-  #             :if => 'self.department_id', 
-  #             :message => "association with this Customer is no longer valid because the Department object no longer exists."
-  #           }
+              :message => "association with this Customer is no longer valid because the Heard About Service object does not exists."
+            }    
+          
+  validates :academic_status, 
+            :presence => {
+              :if => 'self.academic_status_id', 
+              :message => "association with this Customer is no longer valid because the Academic Status object does not exists."
+            }    
+  validates :department, 
+            :presence => {
+              :if => 'self.department_id', 
+              :message => "association with this Customer is no longer valid because the Department object no longer exists."
+            }
   
   #------------------------------------------------------------------
   # callbacks
