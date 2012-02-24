@@ -1,6 +1,6 @@
 # Welcome to Hydraulics
 
-![Dependency Status](https://gemnasium.com/acurley/hydraulics.png)](https://gemnasium.com/acurley/hydraulics)
+[![Dependency Status](https://gemnasium.com/acurley/hydraulics.png)](https://gemnasium.com/acurley/hydraulics)
 
 This gem is designed to be a plugin used within your own application
 
