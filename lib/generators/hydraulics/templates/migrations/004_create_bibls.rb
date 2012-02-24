@@ -3,7 +3,7 @@ class CreateBibls < ActiveRecord::Migration
     create_table :bibls do |t|
   
       # External References
-      t.references :indexing_scenario, :availability_policy
+      t.references :indexing_scenario, :availability_policy, :use_right
       t.integer :parent_bibl_id, :null => false, :default => 0, :references => nil
       
       # General information (i.e. fields never derived from outside source)
@@ -61,6 +61,7 @@ class CreateBibls < ActiveRecord::Migration
     add_index :bibls, :indexing_scenario_id
     add_index :bibls, :availability_policy_id
     add_index :bibls, :parent_bibl_id
+    add_index :bibls, :use_right_id
 
     add_foreign_key :units, :bibls
     
