@@ -13,6 +13,7 @@ class Component < ActiveRecord::Base
 
   has_and_belongs_to_many :bibls
   has_and_belongs_to_many :containers
+  has_and_belongs_to_many :legacy_identifiers
  
   #------------------------------------------------------------------
   # validations
