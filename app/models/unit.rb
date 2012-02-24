@@ -29,13 +29,13 @@ class Unit < ActiveRecord::Base
   #------------------------------------------------------------------  
   scope :in_repo, where("date_dl_deliverables_ready IS NOT NULL").order("date_dl_deliverables_ready DESC")
   scope :ready_for_repo, where("include_in_dl IS NOT NULL AND availability_policy_id IS NOT NULL AND date_queued_for_ingest IS NULL")
-  default_scope :include => [:bibl, :intended_use]
+  # default_scope :include => [:archive, :availability_policy, :bibl, :heard_about_resource, :intended_use, :indexing_scenario, :order, :use_right]
 
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
   validates :intended_use_id, :order_id, :presence => true
-  validates :patron_source_url, :format => {:with => URI::regexp(['http','https'])}
+  validates :patron_source_url, :format => {:with => URI::regexp(['http','https'])}, :allow_blank => true
   validates :archive, :presence => {
     :if => 'self.archive_id',
     :message => "association with this Archive is no longer valid because it no longer exists."
