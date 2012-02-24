@@ -14,6 +14,7 @@ class CreateCustomers < ActiveRecord::Migration
       t.string :email
       t.string :organization
       t.integer :orders_count, :default => 0
+      t.integer :master_files_count, :default => 0
       t.timestamps
     end
     

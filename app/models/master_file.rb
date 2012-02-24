@@ -60,19 +60,15 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   # callbacks
   #------------------------------------------------------------------
-  before_save do
-    self.discoverability = 0 if self.discoverability.nil?
-    self.locked_desc_metadata = 0 if self.locked_desc_metadata.nil?  
-  end
-  
-  before_destroy do
-    
-  end
+  after_create :increment_counter_caches
+
+  after_destroy :decrement_counter_caches
 
   #------------------------------------------------------------------
   # scopes
   #------------------------------------------------------------------  
   scope :in_dl, where("date_ingested_into_dl is not null").order("date_ingested_into_dl ASC")
+  # default_scope :include => [:availability_policy, :component, :indexing_scenario, :unit, :use_right]
 
   #------------------------------------------------------------------
   # public class methods
@@ -111,5 +107,22 @@ class MasterFile < ActiveRecord::Base
     else
       return nil
     end
+  end
+
+  #------------------------------------------------------------------
+  # private instance methods
+  #------------------------------------------------------------------
+  private
+
+  def increment_counter_caches
+    Bibl.increment_counter('master_files_count', self.bibl.id)
+    Customer.increment_counter('master_files_count', self.customer.id)
+    Order.increment_counter('master_files_count', self.order.id)
+  end
+
+  def decrement_counter_caches
+    Bibl.decrement_counter('master_files_count', self.bibl.id)
+    Customer.decrement_counter('master_files_count', self.customer.id)
+    Order.decrement_counter('master_files_count', self.order.id)
   end
 end
