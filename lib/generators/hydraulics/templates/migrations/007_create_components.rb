@@ -5,6 +5,7 @@ class CreateComponents < ActiveRecord::Migration
       t.integer :component_type_id
       t.integer :indexing_scenario_id
       t.integer :use_right_id
+      t.integer :parent_component_id
       t.string :title
       t.text :content_desc
       t.string :date
