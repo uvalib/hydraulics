@@ -5,7 +5,7 @@ class CreateContainerTypes < ActiveRecord::Migration
       t.string :description
     end
 
-    add_index :containers, :name, :unique => true
+    add_index :container_types, :name, :unique => true
     add_foreign_key :containers, :container_types
   end
 end
