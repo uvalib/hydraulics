@@ -29,5 +29,16 @@ class CreateLegacyIdentifiers < ActiveRecord::Migration
 
     add_foreign_key :legacy_identifiers_master_files, :legacy_identifiers
     add_foreign_key :legacy_identifiers_master_files, :master_files
+
+    create_table :components_legacy_identifiers, :id => false do |t|
+      t.references :component, :legacy_identifier
+    end
+
+    add_index :components_legacy_identifiers, :component_id
+    add_index :components_legacy_identifiers, :legacy_identifier_id
+
+    add_foreign_key :components_legacy_identifiers, :components
+    add_foreign_key :components_legacy_identifiers, :legacy_identifiers
+
   end
 end
