@@ -11,6 +11,7 @@ class AutomationMessage < ActiveRecord::Base
   belongs_to :master_file, :counter_cache => true
   belongs_to :order, :counter_cache => true
   belongs_to :unit, :counter_cache => true
+  belongs_to :component, :counter_cache => true
 
   #------------------------------------------------------------------
   # validations
