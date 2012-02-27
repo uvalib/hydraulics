@@ -52,6 +52,7 @@ class AutomationMessage < ActiveRecord::Base
   # scopes
   #------------------------------------------------------------------
   scope :has_active_error, where('active_error = 1')
+  scope :has_inactive_error, where('active_error = 0')
   scope :archive_workflow, where("workflow_type = 'archive'")
   scope :qa_workflow, where("workflow_type = 'qa'")
   scope :patron_workflow, where("workflow_type = 'patron'")
