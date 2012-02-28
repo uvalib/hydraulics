@@ -3,7 +3,7 @@ class Component < ActiveRecord::Base
   # relationships
   #------------------------------------------------------------------
   belongs_to :availability_policy, :counter_cache => true
-  belongs_to :component_type
+  belongs_to :component_type, :counter_cache => true
   belongs_to :indexing_scenario, :counter_cache => true
   belongs_to :use_rights, :counter_cache => true
   
