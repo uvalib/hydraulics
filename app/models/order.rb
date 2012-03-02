@@ -56,7 +56,7 @@ class Order < ActiveRecord::Base
   }
   validates :order_title, :uniqueness => true
   
-  validates :fee_estimated, :fee_actual, :numericality => {:greater_than => 0, :allow_nil => true}
+  validates :fee_estimated, :fee_actual, :numericality => {:greater_than_or_equal_to => 0, :allow_nil => true}
 
   validates :order_status, :inclusion => { :in => ORDER_STATUSES, 
     :message => 'must be one of these values: ' + ORDER_STATUSES.join(", ")}
@@ -89,6 +89,7 @@ class Order < ActiveRecord::Base
   before_save do
     # boolean fields cannot be NULL at database level
     self.is_approved = 0 if self.is_approved.nil? 
+    self.is_approved = 1 if self.order_status == 'approved'
   end
   
   #------------------------------------------------------------------
@@ -133,6 +134,16 @@ class Order < ActiveRecord::Base
     end
   end
   
+  # Returns a boolean value indicating whether the Order is approved
+  # for digitization ("order") or not ("request").
+  def approved?
+    if order_status == 'approved'
+      return true
+    else
+      return false
+    end
+  end
+
   # Returns a boolean value indicating whether it is safe to delete
   # this Order from the database. Returns +false+ if this record has
   # dependent records in other tables, namely associated Unit or
@@ -151,11 +162,6 @@ class Order < ActiveRecord::Base
   def invoices?
     return invoices.any?
   end
-
-  # Returns this object's parent object.
-  # def parent
-  #     return self.customer
-  #   end
   
   # Returns a boolean value indicating whether this Order has
   # associated Unit records.
