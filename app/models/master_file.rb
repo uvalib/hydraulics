@@ -17,6 +17,7 @@ class MasterFile < ActiveRecord::Base
   has_one :order, :through => :unit
   has_one :bibl, :through => :unit
   has_one :customer, :through => :order
+  has_one :academic_status, :through => :customer
 
   #------------------------------------------------------------------
   # delegation
@@ -32,6 +33,9 @@ class MasterFile < ActiveRecord::Base
     
   delegate :full_name, :id, :last_name, :first_name,
     :to => :customer, :allow_nil => true, :prefix => true
+
+  delegate :name, 
+    :to => :academic_status, :allow_nil => true, :prefix => true
   
   #------------------------------------------------------------------
   # validations
