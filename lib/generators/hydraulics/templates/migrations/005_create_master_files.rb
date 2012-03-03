@@ -25,7 +25,8 @@ class CreateMasterFiles < ActiveRecord::Migration
       t.text :rels_int
       t.text :solr, :limit => 16777215
       t.text :transcription_text
-      t.datetime :date_ingested_into_dl
+      t.datetime :date_dl_ingest
+      t.datetime :date_dl_update
       t.datetime :date_archived
 
       t.string :tech_meta_type # Used to distinguish what kind of MasterFile object this is (i.e. image, audio, video, etc...)

@@ -71,7 +71,7 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   # scopes
   #------------------------------------------------------------------  
-  scope :in_dl, where("date_ingested_into_dl is not null").order("date_ingested_into_dl ASC")
+  scope :in_dl, where("date_dl_ingest is not null").order("date_dl_ingest ASC")
   # default_scope :include => [:availability_policy, :component, :indexing_scenario, :unit, :use_right]
 
   #------------------------------------------------------------------
@@ -82,7 +82,7 @@ class MasterFile < ActiveRecord::Base
   # public instance methods
   #------------------------------------------------------------------
   def in_dl?
-    return self.date_ingested_into_dl?
+    return self.date_dl_ingest?
   end
 
   def name
