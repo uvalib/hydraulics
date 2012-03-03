@@ -11,7 +11,7 @@ class MasterFile < ActiveRecord::Base
 
   has_and_belongs_to_many :legacy_identifiers
   
-  has_many :automation_messages, :dependent => :destroy
+  has_many :automation_messages, :as => :messagable, :dependent => :destroy
 
   has_one :image_tech_meta
   has_one :order, :through => :unit

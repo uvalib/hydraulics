@@ -12,7 +12,7 @@ class Unit < ActiveRecord::Base
   belongs_to :use_right, :counter_cache => true
 
   has_many :master_files
-  has_many :automation_messages
+  has_many :automation_messages, :as => :messagable, :dependent => :destroy
 
   has_one :agency, :through => :order
   has_one :customer, :through => :order

@@ -1,37 +1,26 @@
 class CreateAutomationMessages < ActiveRecord::Migration
   def change
     create_table :automation_messages do |t|
-      t.integer :unit_id
-      t.integer :order_id
-      t.integer :master_file_id
-      t.integer :bibl_id
-      t.integer :component_id
+
+      # Custom polymorphism
+      t.integer :messagable_id, :null => false
+      t.integer :messagable_type, :null => false, :limit => 20
+
       t.boolean :active_error, :null => false, :default => 0
-      t.string :pid
-      t.string :app
-      t.string :processor
-      t.string :message_type
+      t.string :app, :limit => 20
+      t.string :processor, :limit => 50
+      t.string :message_type, :limit => 20
       t.string :message
-      t.string :class_name
+      t.string :class_name, :limit => 50
       t.text :backtrace
-      t.string :workflow_type
+      t.string :workflow_type, :limit => 20
       t.timestamps
     end
     
-    add_index :automation_messages, :unit_id
-    add_index :automation_messages, :order_id
+    add_index :automation_messages, [:messagable_id, :messagable_type]
     add_index :automation_messages, :processor
     add_index :automation_messages, :message_type
     add_index :automation_messages, :workflow_type
     add_index :automation_messages, :active_error
-    add_index :automation_messages, :master_file_id
-    add_index :automation_messages, :bibl_id
-    add_index :automation_messages, :component_id
-
-    add_foreign_key :automation_messages, :bibls
-    add_foreign_key :automation_messages, :components
-    add_foreign_key :automation_messages, :master_files
-    add_foreign_key :automation_messages, :orders
-    add_foreign_key :automation_messages, :units
   end
 end

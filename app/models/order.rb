@@ -9,9 +9,9 @@ class Order < ActiveRecord::Base
   belongs_to :customer, :counter_cache => true
   belongs_to :dvd_delivery_location, :counter_cache => true
   
-  has_many :automation_messages
+  has_many :automation_messages, :as => :messagable, :dependent => :destroy
   has_many :bibls, :through => :units
-  has_many :invoices
+  has_many :invoices, :dependent => :destroy
   has_many :master_files, :through => :units
   has_many :units
 

@@ -8,7 +8,7 @@ class Bibl < ActiveRecord::Base
   has_and_belongs_to_many :legacy_identifiers
 
   has_many :agencies, :through => :orders
-  has_many :automation_messages
+  has_many :automation_messages, :as => :messagable, :dependent => :destroy
   has_many :components
   has_many :customers, :through => :orders
   has_many :master_files, :through => :units

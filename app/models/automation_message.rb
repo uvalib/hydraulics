@@ -7,11 +7,7 @@ class AutomationMessage < ActiveRecord::Base
   #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------
-  belongs_to :bibl, :counter_cache => true
-  belongs_to :master_file, :counter_cache => true
-  belongs_to :order, :counter_cache => true
-  belongs_to :unit, :counter_cache => true
-  belongs_to :component, :counter_cache => true
+  belongs_to :messagable, :polymorphic => true, :counter_cache => true
 
   #------------------------------------------------------------------
   # validations
@@ -23,22 +19,24 @@ class AutomationMessage < ActiveRecord::Base
       :message => 'must be one of these values: ' + MESSAGE_TYPES.join(", ")}
   validates :app, :inclusion => { :in => APPS, 
       :message => 'must be one of these values: ' + APPS.join(", ")}
-  validates :unit, :presence => {
-              :if => 'self.unit_id',
-              :message => "association with this Unit is no longer valid because the Unit object no longer exists."
-            }
-  validates :order, :presence => {
-              :if => 'self.order_id',
-              :message => "association with this Order is no longer valid because the Order object no longer exists."
-            }
-  validates :master_file, :presence => {
-              :if => 'self.master_file_id',
-              :message => "association with this MasterFile is no longer valid because the MasterFile object no longer exists."
-            }
-  validates :bibl, :presence => {
-              :if => 'self.bibl_id',
-              :message => "association with this Bibl is no longer valid because the Bibl object no longer exists."
-            }
+  validates :messagable_type, :messagable_id, :presence => true
+  
+  # validates :unit, :presence => {
+  #             :if => 'self.unit_id',
+  #             :message => "association with this Unit is no longer valid because the Unit object no longer exists."
+  #           }
+  # validates :order, :presence => {
+  #             :if => 'self.order_id',
+  #             :message => "association with this Order is no longer valid because the Order object no longer exists."
+  #           }
+  # validates :master_file, :presence => {
+  #             :if => 'self.master_file_id',
+  #             :message => "association with this MasterFile is no longer valid because the MasterFile object no longer exists."
+  #           }
+  # validates :bibl, :presence => {
+  #             :if => 'self.bibl_id',
+  #             :message => "association with this Bibl is no longer valid because the Bibl object no longer exists."
+  #           }
   # Must validate that an AutomationMessage object can only be associated with one of its 'belongs_to' associations
  
   #------------------------------------------------------------------
@@ -91,28 +89,28 @@ class AutomationMessage < ActiveRecord::Base
     processor.to_s.humanize_camelcase.sub(/Dl /,'DL ')
   end
 
-  # Choice of parent for an AutomationMessage object is variable.  Since an AutomationMessage object
-  # can be associated with a MasterFile, Unit, Order, Bibl or Component, we must impose a
-  # priority list in case an AutomationMessage object is associated with more than one.  The preference is:
-  #
-  # MasterFile
-  # Unit
-  # Order
-  # Bibl
-  # Component
-  def parent
-    if self.master_file_id
-      return MasterFile.find(master_file_id) 
-    elsif self.unit_id
-      return Unit.find(unit_id)
-    elsif self.order_id
-      return Order.find(order_id)
-    elsif self.bibl_id
-      return Bibl.find(bibl_id)
-    elsif self.component_id
-      return Component.find(component_id)
-    end
-  end
+  # # Choice of parent for an AutomationMessage object is variable.  Since an AutomationMessage object
+  # # can be associated with a MasterFile, Unit, Order, Bibl or Component, we must impose a
+  # # priority list in case an AutomationMessage object is associated with more than one.  The preference is:
+  # #
+  # # MasterFile
+  # # Unit
+  # # Order
+  # # Bibl
+  # # Component
+  # def parent
+  #   if self.master_file_id
+  #     return MasterFile.find(master_file_id) 
+  #   elsif self.unit_id
+  #     return Unit.find(unit_id)
+  #   elsif self.order_id
+  #     return Order.find(order_id)
+  #   elsif self.bibl_id
+  #     return Bibl.find(bibl_id)
+  #   elsif self.component_id
+  #     return Component.find(component_id)
+  #   end
+  # end
 
   # Formats +app+ and +processor+ values into a single user-friendly display
   # value indicating the sender of the message
