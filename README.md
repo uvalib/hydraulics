@@ -8,7 +8,7 @@ This gem is designed to be a plugin used within your own application
 ## Requirements
 
 * Ruby 1.9.2
-* Rails 3.1.3
+* Rails 3.2.1
 
 If you are using an earlier version fo Fedora (i.e. 12), you must add to the Gemfile:
 
