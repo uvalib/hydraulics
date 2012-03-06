@@ -13,20 +13,15 @@ class Customer < ActiveRecord::Base
   has_many :bibls, :through => :units
   has_many :invoices, :through => :orders
   
-  has_one :billing_address
-  
+  has_one :primary_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'primary'}, :dependent => :destroy
+  has_one :billing_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billing_address'}, :dependent => :destroy
+ 
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
-  validates :last_name, :first_name, :address_1, :country, :city, :email, :presence => true
+  validates :last_name, :first_name, :email, :presence => true
   validates :email, :uniqueness => true, :email => true # Email serves as a Customer object's unique identifier
   validates :last_name, :first_name, :person_name_format => true
-  validates :city, :city_format => true
-  validates :phone, :phone_format => true, :allow_nil => true
-  
-  # Validate data that could be coming in from the request form such that < and > are not
-  # allowed in the text to prevent cross site scripting.
-  validates :organization, :address_1, :address_2, :state, :country, :post_code, :xss => true
 
   # Validating presence of continued association with valid external data
   validates :heard_about_service, 
@@ -45,7 +40,12 @@ class Customer < ActiveRecord::Base
               :if => 'self.department_id', 
               :message => "association with this Customer is no longer valid because the Department object no longer exists."
             }
-  
+  # validates :primary_address,
+  #           :presence => {
+  #             :message => 'must be associated with this Customer.'
+  #           }
+
+
   #------------------------------------------------------------------
   # callbacks
   #------------------------------------------------------------------

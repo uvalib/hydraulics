@@ -89,7 +89,6 @@ class MasterFile < ActiveRecord::Base
     return self.filename
   end
 
-
   # Within the scope of a current MasterFile's Unit, return the MasterFile object
   # that follows self.  Used to create links and relationships between objects.
   def next
