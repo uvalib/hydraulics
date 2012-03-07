@@ -40,10 +40,10 @@ class Customer < ActiveRecord::Base
               :if => 'self.department_id', 
               :message => "association with this Customer is no longer valid because the Department object no longer exists."
             }
-  # validates :primary_address,
-  #           :presence => {
-  #             :message => 'must be associated with this Customer.'
-  #           }
+  validates :primary_address,
+            :presence => {
+              :message => 'must be associated with this Customer.'
+            }
 
 
   #------------------------------------------------------------------
