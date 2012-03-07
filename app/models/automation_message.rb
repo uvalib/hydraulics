@@ -19,25 +19,7 @@ class AutomationMessage < ActiveRecord::Base
       :message => 'must be one of these values: ' + MESSAGE_TYPES.join(", ")}
   validates :app, :inclusion => { :in => APPS, 
       :message => 'must be one of these values: ' + APPS.join(", ")}
-  validates :messagable_type, :messagable_id, :presence => true
-  
-  # validates :unit, :presence => {
-  #             :if => 'self.unit_id',
-  #             :message => "association with this Unit is no longer valid because the Unit object no longer exists."
-  #           }
-  # validates :order, :presence => {
-  #             :if => 'self.order_id',
-  #             :message => "association with this Order is no longer valid because the Order object no longer exists."
-  #           }
-  # validates :master_file, :presence => {
-  #             :if => 'self.master_file_id',
-  #             :message => "association with this MasterFile is no longer valid because the MasterFile object no longer exists."
-  #           }
-  # validates :bibl, :presence => {
-  #             :if => 'self.bibl_id',
-  #             :message => "association with this Bibl is no longer valid because the Bibl object no longer exists."
-  #           }
-  # Must validate that an AutomationMessage object can only be associated with one of its 'belongs_to' associations
+  validates :messagable, :presence => true
  
   #------------------------------------------------------------------
   # callbacks
