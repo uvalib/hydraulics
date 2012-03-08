@@ -7,7 +7,8 @@ class Agency < ActiveRecord::Base
   has_many :requests, :class_name => 'Order', :conditions => ['is_approved = ?', false]
   has_many :units, :through => :orders
   has_many :master_files, :through => :units
-  has_one :billing_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billing_address'}, :dependent => :destroy
+  has_one :primary_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'primary_address'}, :dependent => :destroy
+  has_one :billable_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billable_address'}, :dependent => :destroy
  
   #------------------------------------------------------------------
   # validations
