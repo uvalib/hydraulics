@@ -14,7 +14,7 @@ class Customer < ActiveRecord::Base
   has_many :invoices, :through => :orders
   
   has_one :primary_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'primary'}, :dependent => :destroy
-  has_one :billing_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billing_address'}, :dependent => :destroy
+  has_one :billable_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billable_address'}, :dependent => :destroy
  
   #------------------------------------------------------------------
   # validations
