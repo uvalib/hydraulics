@@ -29,6 +29,7 @@ class Unit < ActiveRecord::Base
   #------------------------------------------------------------------  
   scope :in_repo, where("date_dl_deliverables_ready IS NOT NULL").order("date_dl_deliverables_ready DESC")
   scope :ready_for_repo, where("include_in_dl IS NOT NULL AND availability_policy_id IS NOT NULL AND date_queued_for_ingest IS NULL")
+  scope :current_materials , where("date_materials_received IS NOT NULL AND date_materials_returned IS NULL")
   # default_scope :include => [:archive, :availability_policy, :bibl, :heard_about_resource, :intended_use, :indexing_scenario, :order, :use_right]
 
   #------------------------------------------------------------------
