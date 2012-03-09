@@ -33,7 +33,7 @@ class Unit < ActiveRecord::Base
   scope :in_repo, where("date_dl_deliverables_ready IS NOT NULL").order("date_dl_deliverables_ready DESC")
   scope :ready_for_repo, where("include_in_dl IS NOT NULL AND availability_policy_id IS NOT NULL AND date_queued_for_ingest IS NULL")
   scope :checkedout_materials, where("date_materials_received IS NOT NULL AND date_materials_returned IS NULL")
-  scope :overdue_materials, where("date_materials_received IS NOT NULL AND date_archived IS NOT NULL")
+  scope :overdue_materials, where("date_materials_returned IS NULL AND date_archived IS NOT NULL")
   scope :awaiting_copyright_approval, where(:unit_status => 'copyright')
   scope :awaiting_condition_approval, where(:unit_status => 'condition')
   #------------------------------------------------------------------
