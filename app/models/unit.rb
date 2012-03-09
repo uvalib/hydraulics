@@ -1,4 +1,7 @@
 class Unit < ActiveRecord::Base
+
+  UNIT_STATUSES = %w[canceled condition copyright]
+
   #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------
@@ -33,6 +36,8 @@ class Unit < ActiveRecord::Base
   scope :overdue_materials, where("date_materials_received IS NOT NULL AND date_archived IS NOT NULL")
   # default_scope :include => [:archive, :availability_policy, :bibl, :heard_about_resource, :intended_use, :indexing_scenario, :order, :use_right]
 
+  scope :awaiting_copyright_approval, where(:unit_status => 'copyright')
+  scope :awaiting_condition_approval, where(:unit_status => 'condition')
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
@@ -68,6 +73,8 @@ class Unit < ActiveRecord::Base
     :if => 'self.use_right_id',
     :message => "association with this UseRight is no longer valid because it no longer exists."
   }
+  validates :unit_status, :inclusion => { :in => UNIT_STATUSES, 
+    :message => 'must be one of these values: ' + UNIT_STATUSES.join(", ")}
  
   #------------------------------------------------------------------
   # callbacks
