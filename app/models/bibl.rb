@@ -19,10 +19,22 @@ class Bibl < ActiveRecord::Base
   # scopes
   #------------------------------------------------------------------  
   scope :approved, where(:is_approved => true)
-  scope :in_dl, where("date_ingested_into_dl is not null").order("date_ingested_into_dl DESC")
+  scope :in_dl, where("date_dl_ingest is not null").order("date_dl_ingest DESC")
   scope :not_approved, where(:is_approved => false)
   scope :has_exemplars, where("exemplar is NOT NULL")
   scope :need_exemplars, where("exemplar is NULL")
+
+  #------------------------------------------------------------------
+  # delegation
+  #------------------------------------------------------------------
+  # delegate :id, 
+  #   :to => :unit, :allow_nil => true, :prefix => true
+
+  # delegate :id, 
+  #   :to => :order, :allow_nil => true, :prefix => true
+
+  delegate :id, :email,
+    :to => :customers, :allow_nil => true, :prefix => true
 
   #------------------------------------------------------------------
   # validations
