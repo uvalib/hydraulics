@@ -15,6 +15,11 @@ class Customer < ActiveRecord::Base
   
   has_one :primary_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'primary'}, :dependent => :destroy
   has_one :billable_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billable_address'}, :dependent => :destroy
+
+  delegate :organization,
+    :to => :primary_address, :allow_nil => true, :prefix => true
+  delegate :organization,
+    :to => :billable_address, :allow_nil => true, :prefix => true
  
   #------------------------------------------------------------------
   # validations
