@@ -18,7 +18,8 @@ class CreateComponents < ActiveRecord::Migration
       t.text :rels_ext
       t.text :rels_int
       t.text :solr, :limit => 16777215
-      t.datetime :date_ingested_into_dl
+      t.datetime :date_dl_ingest
+      t.datetime :date_dl_update
       t.integer :master_files_count, :default => 0
       t.integer :automation_messages_count, :default => 0
       t.timestamps
