@@ -7,7 +7,7 @@ class Customer < ActiveRecord::Base
   belongs_to :heard_about_service, :counter_cache => true
   
   has_many :orders
-  has_many :requests, :class_name => 'Order', :conditions => ['orders.is_approved = ?', false]
+  has_many :requests, :conditions => ['orders.order_status = ?', 'requested']
   has_many :units, :through => :orders
   has_many :master_files, :through => :units
   has_many :bibls, :through => :units
