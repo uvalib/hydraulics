@@ -18,7 +18,7 @@ class Order < ActiveRecord::Base
   #------------------------------------------------------------------
   # delegation
   #------------------------------------------------------------------
-  delegate :full_name, 
+  delegate :full_name, :last_name, :first_name,
     :to => :customer, :allow_nil => true, :prefix => true
   delegate :name, 
     :to => :agency, :allow_nil => true, :prefix => true
@@ -30,8 +30,9 @@ class Order < ActiveRecord::Base
   scope :deferred, where("order_status = 'deferred'")
   scope :in_process, where("date_archiving_complete is null").where("order_status = 'approved'")
   scope :awaiting_approval, where("order_status = 'requested'")
-  scope :ready_for_delivery, where("email IS NOT NULL and date_customer_notified IS NULL")
-  scope :ready_for_dvd_burning, where("")
+  scope :approved, where("order_status = 'approved'")
+  scope :ready_for_delivery, where("`orders`.email IS NOT NULL and date_customer_notified IS NULL")
+  scope :has_dvd_delivery, where("dvd_delivery_location_id IS NOT NULL")
   scope :recent, 
     lambda {|limit=5|
       order('date_request_submitted DESC').limit(limit)
@@ -138,6 +139,14 @@ class Order < ActiveRecord::Base
   # for digitization ("order") or not ("request").
   def approved?
     if order_status == 'approved'
+      return true
+    else
+      return false
+    end
+  end
+
+  def canceled?
+    if order_status == 'canceled'
       return true
     else
       return false
