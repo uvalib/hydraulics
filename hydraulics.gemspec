@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   # ---------------------------------------   
 
   s.add_dependency "rails"
-  s.add_dependency "sqlite3"
+  s.add_dependency "ancestry"
   s.add_dependency "carmen"
   s.add_dependency "nokogiri"
   s.add_dependency "validates_timeliness", "~> 3.0.6" # https://github.com/adzap/validates_timeliness
