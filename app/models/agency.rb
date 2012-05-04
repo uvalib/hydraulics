@@ -3,8 +3,8 @@ class Agency < ActiveRecord::Base
   #------------------------------------------------------------------
   # relationships
   #------------------------------------------------------------------ 
-  has_many :orders, :class_name => 'Order', :conditions => ['is_approved = ?', true]
-  has_many :requests, :class_name => 'Order', :conditions => ['is_approved = ?', false]
+  has_many :orders
+  has_many :requests, :conditions => ['orders.order_status = ?', 'requested']
   has_many :units, :through => :orders
   has_many :master_files, :through => :units
   has_one :primary_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'primary_address'}, :dependent => :destroy
