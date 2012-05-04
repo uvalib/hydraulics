@@ -16,6 +16,8 @@ class Order < ActiveRecord::Base
   has_many :units
   has_many :heard_about_resources, :through => :units, :uniq => true
 
+  has_one :academic_status, :through => :customer
+  has_one :department, :through => :customer
 
   #------------------------------------------------------------------
   # delegation
