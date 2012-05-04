@@ -18,7 +18,11 @@ class MasterFile < ActiveRecord::Base
   has_one :bibl, :through => :unit
   has_one :customer, :through => :order
   has_one :academic_status, :through => :customer
+  has_one :department, :through => :customer
   has_one :agency, :through => :order
+  has_one :archive, :through => :unit
+  has_one :heard_about_resource, :through => :unit
+  has_one :heard_about_service, :through => :customer
 
   #------------------------------------------------------------------
   # delegation
