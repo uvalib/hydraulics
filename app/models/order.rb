@@ -14,6 +14,8 @@ class Order < ActiveRecord::Base
   has_many :invoices, :dependent => :destroy
   has_many :master_files, :through => :units
   has_many :units
+  has_many :heard_about_resources, :through => :units, :uniq => true
+
 
   #------------------------------------------------------------------
   # delegation
