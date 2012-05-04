@@ -5,6 +5,8 @@ class HeardAboutResource < ActiveRecord::Base
   #------------------------------------------------------------------
   has_many :units
   has_many :master_files, :through => :units
+  has_many :orders, :through => :units
+  has_many :customers, :through => :orders
  
   #------------------------------------------------------------------
   # validations
