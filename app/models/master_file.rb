@@ -72,7 +72,8 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   # scopes
   #------------------------------------------------------------------  
-  scope :in_dl, where("date_dl_ingest is not null").order("date_dl_ingest ASC")
+  scope :in_digital_library, where("date_dl_ingest is not null").order("date_dl_ingest ASC")
+  scope :not_in_digital_library, where("date_dl_ingest is null")
   # default_scope :include => [:availability_policy, :component, :indexing_scenario, :unit, :use_right]
 
   #------------------------------------------------------------------
