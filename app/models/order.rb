@@ -81,7 +81,7 @@ class Order < ActiveRecord::Base
                     :date_customer_notified,
                     :date_finalization_begun,
                     :date_fee_estimate_sent_to_customer,
-                    :allow_nil => true
+                    :allow_blank => true
                     
   # Validate data that could be coming in from the request form such that < and > are not
   # allowed in the text to prevent cross site scripting.
