@@ -24,7 +24,8 @@ class Bibl < ActiveRecord::Base
   # scopes
   #------------------------------------------------------------------  
   scope :approved, where(:is_approved => true)
-  scope :in_dl, where("date_dl_ingest is not null").order("date_dl_ingest DESC")
+  scope :in_digital_library, where("date_dl_ingest is not null").order("date_dl_ingest DESC")
+  scope :not_in_digital_library, where("date_dl_ingest is null")
   scope :not_approved, where(:is_approved => false)
   scope :has_exemplars, where("exemplar is NOT NULL")
   scope :need_exemplars, where("exemplar is NULL")
@@ -142,7 +143,7 @@ class Bibl < ActiveRecord::Base
   end
 
   def in_dl?
-    return self.date_ingested_into_dl?
+    return self.date_dl_ingest?
   end
       
   def master_file_filenames
