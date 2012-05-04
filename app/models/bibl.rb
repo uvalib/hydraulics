@@ -9,6 +9,7 @@ class Bibl < ActiveRecord::Base
   #------------------------------------------------------------------
   belongs_to :availability_policy, :counter_cache => true
   belongs_to :indexing_scenario, :counter_cache => true
+  belongs_to :use_right, :counter_cache => true
   
   has_and_belongs_to_many :legacy_identifiers
 
