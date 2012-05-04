@@ -4,6 +4,9 @@ class HeardAboutService < ActiveRecord::Base
   # relationships
   #------------------------------------------------------------------
   has_many :customers
+  has_many :orders, :through => :customers
+  has_many :units, :through => :orders
+  has_many :master_files, :through => :units
 
   #------------------------------------------------------------------
   # validations
