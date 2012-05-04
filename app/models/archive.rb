@@ -4,6 +4,7 @@ class Archive < ActiveRecord::Base
   # relationships
   #------------------------------------------------------------------
   has_many :units
+  has_many :master_files, :through => :units
   
   #------------------------------------------------------------------
   # validations
