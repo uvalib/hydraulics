@@ -143,6 +143,10 @@ class Bibl < ActiveRecord::Base
     end      
   end
 
+  def in_catalog?
+    return self.catalog_key?
+  end
+
   def in_dl?
     return self.date_dl_ingest?
   end
