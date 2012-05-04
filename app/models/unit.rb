@@ -19,9 +19,6 @@ class Unit < ActiveRecord::Base
 
   has_one :agency, :through => :order
   has_one :customer, :through => :order
-  has_one :academic_status, :through => :customer
-  has_one :department, :through => :customer
-  has_one :heard_about_service, :through => :customer
 
   delegate :call_number, :title, :catalog_key, :barcode, :pid, :exemplar,
     :to => :bibl, :allow_nil => true, :prefix => true
