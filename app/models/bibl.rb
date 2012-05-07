@@ -26,8 +26,8 @@ class Bibl < ActiveRecord::Base
   # scopes
   #------------------------------------------------------------------  
   scope :approved, where(:is_approved => true)
-  scope :in_digital_library, where("date_dl_ingest is not null").order("date_dl_ingest DESC")
-  scope :not_in_digital_library, where("date_dl_ingest is null")
+  scope :in_digital_library, where("bibls.date_dl_ingest is not null").order("bibls.date_dl_ingest DESC")
+  scope :not_in_digital_library, where("bibls.date_dl_ingest is null")
   scope :not_approved, where(:is_approved => false)
   scope :has_exemplars, where("exemplar is NOT NULL")
   scope :need_exemplars, where("exemplar is NULL")
