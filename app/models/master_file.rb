@@ -30,7 +30,7 @@ class MasterFile < ActiveRecord::Base
   delegate :call_number, :title, :catalog_key, :barcode, :id, :creator_name,
     :to => :bibl, :allow_nil => true, :prefix => true
 
-  delegate :include_in_dl, :exclude_in_dl, :date_archived, :date_queued_for_ingest, :date_dl_deliverables_ready, :id,
+  delegate :include_in_dl, :exclude_in_dl, :date_archived, :date_queued_for_ingest, :date_dl_deliverables_ready,
     :to => :unit, :allow_nil => true, :prefix => true
 
   delegate :date_due, :date_order_approved, :date_request_submitted, :date_customer_notified, :id,
