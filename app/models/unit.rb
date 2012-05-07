@@ -24,7 +24,7 @@ class Unit < ActiveRecord::Base
     :to => :bibl, :allow_nil => true, :prefix => true
   delegate :id, :full_name, 
     :to => :customer, :allow_nil => true, :prefix => true
-  delegate :date_due, :id, 
+  delegate :date_due,  
     :to => :order, :allow_nil => true, :prefix => true
 
   #------------------------------------------------------------------
