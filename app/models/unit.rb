@@ -41,6 +41,7 @@ class Unit < ActiveRecord::Base
   # validations
   #------------------------------------------------------------------
   validates :intended_use_id, :order_id, :presence => true
+  validates :order_id, :numericality => { :greater_than => 1 }
   validates :patron_source_url, :format => {:with => URI::regexp(['http','https'])}, :allow_blank => true
   validates :archive, :presence => {
     :if => 'self.archive_id',
@@ -66,6 +67,7 @@ class Unit < ActiveRecord::Base
     :message => "association with this IndexingScenario is no longer valid because it no longer exists."
   }
   validates :order, :presence => {
+    :if => 'self.order_id',
     :message => "association with this Order is no longer valid because it no longer exists."
   }
   validates :use_right, :presence => {
