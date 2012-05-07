@@ -13,10 +13,10 @@ class Bibl < ActiveRecord::Base
   belongs_to :use_right, :counter_cache => true
   
   has_and_belongs_to_many :legacy_identifiers
+  has_and_belongs_to_many :components
 
   has_many :agencies, :through => :orders
   has_many :automation_messages, :as => :messagable, :dependent => :destroy
-  has_many :components
   has_many :customers, :through => :orders
   has_many :master_files, :through => :units
   has_many :orders, :through => :units
@@ -124,7 +124,11 @@ class Bibl < ActiveRecord::Base
   end
   
   def components?
-    return false unless components.any?  
+    if components.any?
+      return true
+    else
+      return false
+    end  
   end
   
   def dl_master_files
@@ -137,7 +141,7 @@ class Bibl < ActiveRecord::Base
   #
   # This method is public but is also called as a +before_destroy+ callback.
   def destroyable?
-    if ead_refs? || components? || units?
+    if components? || units?
       return false
     else
       return true
@@ -165,7 +169,11 @@ class Bibl < ActiveRecord::Base
   end
  
   def units?
-    return false unless units.any?  
+    if units.any?
+      return true
+    else
+      return false
+    end  
   end
   
   #------------------------------------------------------------------
