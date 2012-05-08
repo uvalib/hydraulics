@@ -60,7 +60,7 @@ class Order < ActiveRecord::Base
     :if => 'self.dvd_delivery_location_id',
     :message => "assocation with this DvdDeliveryLocation is no longer valid because the DvdDeliveryLocation object no longer exists."
   }
-  validates :order_title, :uniqueness => true, :allow_nil => true
+  validates :order_title, :uniqueness => true, :allow_blank => true
   
   validates :fee_estimated, :fee_actual, :numericality => {:greater_than_or_equal_to => 0, :allow_nil => true}
 
