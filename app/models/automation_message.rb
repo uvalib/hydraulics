@@ -1,7 +1,7 @@
 class AutomationMessage < ActiveRecord::Base
   
   MESSAGE_TYPES = %w[error success failure info]
-  WORKFLOW_TYPES = %w[administrative archive delivery patron production qa repository]
+  WORKFLOW_TYPES = %w[administrative archive delivery patron production qa repository unknown]
   APPS = %w[hydraulics]
   
   #------------------------------------------------------------------
