@@ -13,7 +13,7 @@ class MasterFile < ActiveRecord::Base
   
   has_many :automation_messages, :as => :messagable, :dependent => :destroy
 
-  has_one :image_tech_meta
+  has_one :image_tech_meta, :dependent => :destroy
   has_one :order, :through => :unit
   has_one :bibl, :through => :unit
   has_one :customer, :through => :order
