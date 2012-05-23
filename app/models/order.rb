@@ -164,11 +164,12 @@ class Order < ActiveRecord::Base
   # Invoice records.
   #
   # This method is public but is also called as a +before_destroy+ callback.
-  def destroyable?
-    if not units? or not invoices?
-      return false
-    end
-    return true
+  def destroyable?               
+    if units? || invoices?        
+      return false 
+    else
+      return true
+    end  
   end
   
   # Returns a boolean value indicating whether this Order has
