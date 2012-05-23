@@ -36,6 +36,9 @@ class Unit < ActiveRecord::Base
   scope :overdue_materials, where("date_materials_received IS NOT NULL AND date_archived IS NOT NULL AND date_materials_returned IS NULL")
   scope :awaiting_copyright_approval, where(:unit_status => 'copyright')
   scope :awaiting_condition_approval, where(:unit_status => 'condition')
+  scope :approved, where(:unit_status => 'approved')
+  scope :unapproved, where(:unit_status => 'unapproved')
+  scope :canceled, where(:unit_status => 'canceled')
   # Unit.joins(:order).where('orders.date_finalization_begun IS NOT NULL').where(:units => {:date_archived => nil})
   #------------------------------------------------------------------
   # validations
