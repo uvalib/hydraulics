@@ -78,8 +78,9 @@ class Unit < ActiveRecord::Base
     :if => 'self.use_right_id',
     :message => "association with this UseRight is no longer valid because it no longer exists."
   }
-  validates :unit_status, :inclusion => { :in => UNIT_STATUSES, 
-    :message => 'must be one of these values: ' + UNIT_STATUSES.join(", ")}
+
+  # comment this out for the time being
+  # validates :unit_status, :inclusion => { :in => UNIT_STATUSES, :message => 'must be one of these values: ' + UNIT_STATUSES.join(", ")}
  
   #------------------------------------------------------------------
   # callbacks
