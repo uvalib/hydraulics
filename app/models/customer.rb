@@ -10,7 +10,7 @@ class Customer < ActiveRecord::Base
   has_many :requests, :conditions => ['orders.order_status = ?', 'requested']
   has_many :units, :through => :orders
   has_many :master_files, :through => :units
-  has_many :bibls, :through => :units
+  has_many :bibls, :through => :units, :uniq => true
   has_many :invoices, :through => :orders
   has_many :agencies, :through => :orders, :uniq => true
   has_many :heard_about_resources, :through => :orders, :uniq => true
