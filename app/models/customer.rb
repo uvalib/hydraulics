@@ -84,7 +84,7 @@ class Customer < ActiveRecord::Base
   # This method is public but is also called as a +before_destroy+ callback.
   # def destroyable?  
   def destroyable?
-    if not orders? and not requests?
+    if orders? || requests?
       return false
     else
       return true
