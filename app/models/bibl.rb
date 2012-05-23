@@ -167,6 +167,14 @@ class Bibl < ActiveRecord::Base
       return nil
     end
   end
+
+  def personal_item?
+    if self.is_personal_item = 0
+      return true
+    else
+      return false
+    end  
+  end
  
   def units?
     if units.any?
