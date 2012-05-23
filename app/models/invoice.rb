@@ -12,6 +12,9 @@ class Invoice < ActiveRecord::Base
     :message => "association with this Order is no longer valid because it does not exist."
   }
 
+  delegate :date_order_approved, :date_customer_notified,
+    :to => :order, :allow_nil => true, :prefix => true
+
   #------------------------------------------------------------------
   # callbacks
   #------------------------------------------------------------------
