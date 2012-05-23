@@ -17,9 +17,9 @@ class Bibl < ActiveRecord::Base
 
   has_many :agencies, :through => :orders
   has_many :automation_messages, :as => :messagable, :dependent => :destroy
-  has_many :customers, :through => :orders
+  has_many :customers, :through => :orders, :uniq => true
   has_many :master_files, :through => :units
-  has_many :orders, :through => :units
+  has_many :orders, :through => :units, :uniq => true
   has_many :units
 
   #------------------------------------------------------------------
