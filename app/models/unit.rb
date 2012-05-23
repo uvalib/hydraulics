@@ -1,6 +1,6 @@
 class Unit < ActiveRecord::Base
 
-  UNIT_STATUSES = %w[approved canceled condition copyright]
+  UNIT_STATUSES = %w[approved canceled condition copyright unapproved]
 
   #------------------------------------------------------------------
   # relationships
