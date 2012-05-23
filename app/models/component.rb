@@ -18,12 +18,9 @@ class Component < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
-  validates :component_type, :bibl_id, :presence => true
+  validates :component_type, :presence => true
   validates :component_type, :presence => {
     :message => 'association with this ComponentType is no longer valid.'
-  }
-  validates :bibl, :presence => {
-    :message => 'associate with this Bibl is no longer valid.'
   }
  
   #------------------------------------------------------------------
