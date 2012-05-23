@@ -92,6 +92,7 @@ class Unit < ActiveRecord::Base
     self.master_file_discoverability = 0 if self.master_file_discoverability.nil?
     self.order_id = 0 if self.order_id.nil?
     self.remove_watermark = 0 if self.remove_watermark.nil?
+    self.unit_status = "unapproved" if self.unit_status.nil? || self.unit_status.empty?
   end
 
   #------------------------------------------------------------------
