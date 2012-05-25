@@ -27,6 +27,8 @@ class Unit < ActiveRecord::Base
     :to => :customer, :allow_nil => true, :prefix => true
   delegate :date_due,  
     :to => :order, :allow_nil => true, :prefix => true
+  delegate :deliverable_format, :deliverable_resolution, :deliverable_resolution_unit,
+    :to => :intended_use, :allow_nil => true, :prefix => true
 
   #------------------------------------------------------------------
   # scopes
