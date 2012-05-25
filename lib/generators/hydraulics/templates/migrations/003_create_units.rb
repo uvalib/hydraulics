@@ -18,9 +18,6 @@ class CreateUnits < ActiveRecord::Migration
       t.datetime :date_materials_received # Date materials delivered to production unit.
       t.datetime :date_materials_returned # Date materials returned to patron, stacks, etc...
       t.datetime :date_patron_deliverables_ready
-      t.string :deliverable_format
-      t.string :deliverable_resolution
-      t.string :deliverable_resolution_unit
       t.text :patron_source_url
       t.boolean :remove_watermark, :null => false, :default => 0 # Override default inclusion of watermark on certain image deliverables
       t.text :special_instructions

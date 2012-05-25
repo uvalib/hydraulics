@@ -2,6 +2,9 @@ class CreateIntendedUses < ActiveRecord::Migration
   def change
     create_table :intended_uses do |t|
       t.string :description
+      t.string :deliverable_format
+      t.string :deliverable_resolution
+      t.string :deliverable_resolution_unit
       t.boolean :is_internal_use_only, :default => false, :null => false
       t.boolean :is_approved, :default => false, :null => false
       t.integer :units_count, :default => 0
