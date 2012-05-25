@@ -7,7 +7,7 @@ class IntendedUse < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
-  validates :description, :deliverable_format, :deliverable_resolution, :deloverable_resolution_unit, :presence => true
+  validates :description, :presence => true
 
   #------------------------------------------------------------------
   # callbacks
