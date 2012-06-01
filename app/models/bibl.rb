@@ -169,11 +169,7 @@ class Bibl < ActiveRecord::Base
   end
 
   def personal_item?
-    if self.is_personal_item = 0
-      return true
-    else
-      return false
-    end  
+    return self.is_personal_item
   end
  
   def units?
