@@ -5,18 +5,6 @@ module Hydraulics
 
     class AutomationMessageAssociationValidator < ActiveModel::EachValidator
       def validate_each(record)
-        if record.unit_id?
-        end
-
-        if record.master_file_id?
-        end
-
-        if record.order_id?
-        end
-
-        if record.component_id?
-        end
-
         if not value =~ /^[a-z0-9_\.-]+@[a-z0-9_\.-]+\.[a-z0-9_-]+$/i
           record.errors.add(attribute, "should be of the format user@host.domain")
         end
@@ -41,7 +29,7 @@ module Hydraulics
 
     class PersonNameFormatValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
-        if not value =~ /^([a-z\.\, -']+)$/i
+        if not value =~ /^([a-z\.\, \-']+)$/i
           record.errors.add(attribute, "should only contain alphabetic characters, period, comma, hyphen, and spaces")
         end
       end
