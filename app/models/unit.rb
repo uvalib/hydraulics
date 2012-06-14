@@ -8,14 +8,14 @@ class Unit < ActiveRecord::Base
   belongs_to :archive, :counter_cache => true
   belongs_to :availability_policy, :counter_cache => true
   belongs_to :bibl, :counter_cache => true
-  belongs_to :heard_about_resource, :counter_cache => true
+  belongs_to :heard_about_resource
   belongs_to :intended_use, :counter_cache => true
   belongs_to :indexing_scenario, :counter_cache => true
-  belongs_to :order, :counter_cache => true
+  belongs_to :order, :counter_cache => true, :inverse_of => :units
   belongs_to :use_right, :counter_cache => true
 
   has_many :master_files
-  has_many :components, :through => :master_files
+  has_many :components, :through => :master_files, :uniq => true
   has_many :automation_messages, :as => :messagable, :dependent => :destroy
 
   has_one :agency, :through => :order
@@ -46,8 +46,12 @@ class Unit < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
-  validates :intended_use_id, :order_id, :presence => true
-  validates :order_id, :numericality => { :greater_than => 1 }
+  # validates :intended_use_id, :presence => {
+  #   :message => "must have an Intended Use."
+  # }
+  
+  # validates :order_id, :numericality => { :greater_than => 1 }
+  validates_presence_of :order
   validates :patron_source_url, :format => {:with => URI::regexp(['http','https'])}, :allow_blank => true
   validates :archive, :presence => {
     :if => 'self.archive_id',
@@ -66,7 +70,7 @@ class Unit < ActiveRecord::Base
     :message => "association with this HeardAboutResource is no longer valid because it no longer exists."
   }
   validates :intended_use, :presence => {
-     :message => "association with this IntendedUse is no longer valid because it no longer exists."
+     :message => "must be selected."
   }
   validates :indexing_scenario, :presence => {
     :if => 'self.indexing_scenario_id',
