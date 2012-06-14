@@ -30,9 +30,13 @@ class Customer < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
-  validates :last_name, :first_name, :email, :presence => true
+  validates :last_name, :first_name, :email, :presence => {
+    :message => 'is required.'
+  }
   validates :email, :uniqueness => true, :email => true # Email serves as a Customer object's unique identifier
   validates :last_name, :first_name, :person_name_format => true
+
+  validates_presence_of :primary_address
 
   # Validating presence of continued association with valid external data
   validates :heard_about_service, 
@@ -51,11 +55,6 @@ class Customer < ActiveRecord::Base
               :if => 'self.department_id', 
               :message => "association with this Customer is no longer valid because the Department object no longer exists."
             }
-  validates :primary_address,
-            :presence => {
-              :message => 'must be associated with this Customer.'
-            }
-
 
   #------------------------------------------------------------------
   # callbacks
