@@ -9,6 +9,9 @@ class IntendedUse < ActiveRecord::Base
   #------------------------------------------------------------------
   validates :description, :presence => true
 
+  scope :interal_use_only, where(:is_internal_use_only => true)
+  scope :external_use, where(:is_internal_use_only => false)
+
   #------------------------------------------------------------------
   # callbacks
   #------------------------------------------------------------------
