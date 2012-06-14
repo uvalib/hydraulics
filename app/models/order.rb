@@ -6,19 +6,21 @@ class Order < ActiveRecord::Base
   # relationships
   #------------------------------------------------------------------
   belongs_to :agency, :counter_cache => true
-  belongs_to :customer, :counter_cache => true
+  belongs_to :customer, :counter_cache => true, :inverse_of => :orders
   belongs_to :dvd_delivery_location, :counter_cache => true
   
   has_many :automation_messages, :as => :messagable, :dependent => :destroy
   has_many :bibls, :through => :units
   has_many :invoices, :dependent => :destroy
   has_many :master_files, :through => :units
-  has_many :units
+  has_many :units, :inverse_of => :order
   has_many :heard_about_resources, :through => :units, :uniq => true
 
   has_one :academic_status, :through => :customer
   has_one :department, :through => :customer
   has_one :heard_about_service, :through => :customer
+  has_one :primary_address, :through => :customer
+  has_one :billable_address, :through => :customer
 
   #------------------------------------------------------------------
   # delegation
@@ -47,15 +49,15 @@ class Order < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------
-  validates :customer_id, :date_due, :date_request_submitted, :presence => true
-            
-  validates :customer, :presence => {
-    :message => "association with this Customer is no longer valid because the Customer object no longer exists." 
+  validates :date_due, :date_request_submitted, :presence => {
+    :message => 'is required.'
   }
-  validates :agency, :presence => {
-    :if => 'self.agency_id',
-    :message => "association with this Agency is no longer valid because the Agency object no longer exists."
-  }
+  validates_presence_of :customer
+
+  # validates :agency, :presence => {
+  #   :if => 'self.agency_id',
+  #   :message => "association with this Agency is no longer valid because the Agency object no longer exists."
+  # }
   validates :dvd_delivery_location, :presence => {
     :if => 'self.dvd_delivery_location_id',
     :message => "assocation with this DvdDeliveryLocation is no longer valid because the DvdDeliveryLocation object no longer exists."
@@ -69,7 +71,8 @@ class Order < ActiveRecord::Base
             
   validates_datetime :date_request_submitted
   
-  validates_date :date_due
+  validates_date :date_due, :on => :update
+  validates_date :date_due, :on => :create, :on_or_after => 28.days.from_now, :if => 'self.order_status == "requested"'
   
   validates_datetime :date_order_approved,
                     :date_deferred,
