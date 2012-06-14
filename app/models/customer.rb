@@ -6,8 +6,8 @@ class Customer < ActiveRecord::Base
   belongs_to :department, :counter_cache => true
   belongs_to :heard_about_service, :counter_cache => true
   
-  has_many :orders
-  has_many :requests, :conditions => ['orders.order_status = ?', 'requested']
+  has_many :orders, :inverse_of => :customer
+  has_many :requests, :conditions => ['orders.order_status = ?', 'requested'], :inverse_of => :customer
   has_many :units, :through => :orders
   has_many :master_files, :through => :units
   has_many :bibls, :through => :units, :uniq => true
@@ -15,8 +15,12 @@ class Customer < ActiveRecord::Base
   has_many :agencies, :through => :orders, :uniq => true
   has_many :heard_about_resources, :through => :orders, :uniq => true
   
-  has_one :primary_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'primary'}, :dependent => :destroy
-  has_one :billable_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billable_address'}, :dependent => :destroy
+  has_one :primary_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'primary'}, :dependent => :destroy, :autosave => true
+  has_one :billable_address, :class_name => 'Address', :as => :addressable, :conditions => {:address_type => 'billable_address'}, :dependent => :destroy, :autosave => true
+
+  accepts_nested_attributes_for :primary_address, :update_only => true
+  accepts_nested_attributes_for :billable_address, :reject_if => :all_blank
+  accepts_nested_attributes_for :orders
 
   delegate :organization,
     :to => :primary_address, :allow_nil => true, :prefix => true
