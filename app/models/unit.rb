@@ -8,7 +8,7 @@ class Unit < ActiveRecord::Base
   belongs_to :archive, :counter_cache => true
   belongs_to :availability_policy, :counter_cache => true
   belongs_to :bibl, :counter_cache => true
-  belongs_to :heard_about_resource
+  belongs_to :heard_about_resource, :counter_cache => true
   belongs_to :intended_use, :counter_cache => true
   belongs_to :indexing_scenario, :counter_cache => true
   belongs_to :order, :counter_cache => true, :inverse_of => :units
