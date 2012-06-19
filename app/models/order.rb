@@ -85,6 +85,9 @@ class Order < ActiveRecord::Base
                     :date_finalization_begun,
                     :date_fee_estimate_sent_to_customer,
                     :allow_blank => true
+
+  # validates that an order_status cannot equal approved if any of it's Units.unit_status != "approved" || "canceled"
+  validate :validate_order_approval, :on => :update, :if => 'self.order_status == "approved"'
                     
   # Validate data that could be coming in from the request form such that < and > are not
   # allowed in the text to prevent cross site scripting.
@@ -179,6 +182,19 @@ class Order < ActiveRecord::Base
   # associated Invoice records.
   def invoices?
     return invoices.any?
+  end
+
+  def validate_order_approval
+    problematic_units = Array.new
+    self.units.each do |unit|
+      if not unit.approved? || unit.canceled?
+        problematic_units << unit
+      end
+    end
+
+    if not problematic_units.empty?
+      errors.add(:order_id, "cannot be approved because units #{problematic_units.map(&:id).join(', ')} are neither approved nor canceled")
+    end
   end
   
   # Returns a boolean value indicating whether this Order has

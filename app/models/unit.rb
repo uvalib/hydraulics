@@ -114,6 +114,22 @@ class Unit < ActiveRecord::Base
   #------------------------------------------------------------------
   # public instance methods
   #------------------------------------------------------------------
+  def approved?
+    if self.unit_status == "approved"
+      return true
+    else
+      return false
+    end
+  end
+
+  def canceled?
+    if self.unit_status == "canceled"
+      return true
+    else
+      return false
+    end
+  end
+
   def in_dl?
     return self.date_dl_deliverables_ready?
   end
