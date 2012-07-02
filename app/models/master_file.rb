@@ -41,6 +41,9 @@ class MasterFile < ActiveRecord::Base
 
   delegate :name, 
     :to => :academic_status, :allow_nil => true, :prefix => true
+
+  delegate :name,
+    :to => :agency, :allow_nil => true, :prefix => true
   
   #------------------------------------------------------------------
   # validations
