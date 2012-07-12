@@ -38,7 +38,7 @@ class Order < ActiveRecord::Base
   scope :in_process, where("date_archiving_complete is null").where("order_status = 'approved'")
   scope :awaiting_approval, where("order_status = 'requested'")
   scope :approved, where("order_status = 'approved'")
-  scope :ready_for_delivery, where("email is not null").where(:date_customer_notified => nil)
+  scope :ready_for_delivery, where("`orders`.email is not null").where(:date_customer_notified => nil)
   scope :has_dvd_delivery, where("dvd_delivery_location_id IS NOT NULL")
   scope :recent, 
     lambda {|limit=5|
