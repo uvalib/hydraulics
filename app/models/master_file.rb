@@ -48,7 +48,7 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   # validations
   #------------------------------------------------------------------  
-  validates :filename, :unit_id, :title, :filesize, :presence => true
+  validates :filename, :unit_id, :filesize, :presence => true
   validates :availability_policy, :presence => {
     :if => 'self.availability_policy_id',
     :message => "association with this AvailabilityPolicy is no longer valid because it no longer exists."
