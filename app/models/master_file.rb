@@ -104,13 +104,15 @@ class MasterFile < ActiveRecord::Base
   private
 
   def increment_counter_caches
-    Bibl.increment_counter('master_files_count', self.bibl.id)
+    # Conditionalize Bibl increment because it is not required.
+    Bibl.increment_counter('master_files_count', self.bibl.id) if self.bibl
     Customer.increment_counter('master_files_count', self.customer.id)
     Order.increment_counter('master_files_count', self.order.id)
   end
 
   def decrement_counter_caches
-    Bibl.decrement_counter('master_files_count', self.bibl.id)
+    # Conditionalize Bibl decrement because it is not required.
+    Bibl.decrement_counter('master_files_count', self.bibl.id) if self.bibl
     Customer.decrement_counter('master_files_count', self.customer.id)
     Order.decrement_counter('master_files_count', self.order.id)
   end
