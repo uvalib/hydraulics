@@ -184,11 +184,19 @@ class Order < ActiveRecord::Base
     return invoices.any?
   end
 
-  def validate_order_approval
-    problematic_units = Unit.where(:order_id => 5916).where('unit_status = "unapproved" or unit_status = "condition" or unit_status = "copyright"').select(:id)
+  # Returns units belonging to current order that are not ready to proceed with digitization and would prevent an order from being approved.
+  # Only units whose unit_status = 'approved' or 'canceled' are removed from consideration by this method.
+  def has_units_being_prepared
+    units_beings_prepared = Unit.where(:order_id => self.id).where('unit_status = "unapproved" or unit_status = "condition" or unit_status = "copyright"')
+    return units_beings_prepared
+  end
 
-    if not problematic_units.empty?
-      errors[:order_status] << "cannot be set to approved because units #{problematic_units.map(&:id).join(', ')} are neither approved nor canceled"
+  # A validation callback which returns to the Order#edit view the IDs of Units which are preventing the Order from being approved because they 
+  # are neither approved or canceled.
+  def validate_order_approval
+    units_beings_prepared = self.has_units_being_prepared
+    if not units_beings_prepared.empty?
+      errors[:order_status] << "cannot be set to approved because units #{units_beings_prepared.map(&:id).join(', ')} are neither approved nor canceled"
     end
   end
   
