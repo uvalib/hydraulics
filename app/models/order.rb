@@ -186,12 +186,7 @@ class Order < ActiveRecord::Base
   end
 
   def validate_order_approval
-    problematic_units = Array.new
-    self.units.each do |unit|
-      if not unit.approved? || unit.canceled?
-        problematic_units << unit
-      end
-    end
+    problematic_units = Unit.where(:order_id => 5916).where('unit_status = "unapproved" or unit_status = "condition" or unit_status = "copyright"').select(:id)
 
     if not problematic_units.empty?
       errors[:order_status] << "cannot be set to approved because units #{problematic_units.map(&:id).join(', ')} are neither approved nor canceled"
