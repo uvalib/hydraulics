@@ -194,7 +194,7 @@ class Order < ActiveRecord::Base
     end
 
     if not problematic_units.empty?
-      errors.add(:order_id, "cannot be approved because units #{problematic_units.map(&:id).join(', ')} are neither approved nor canceled")
+      errors[:order_status] << "cannot be set to approved because units #{problematic_units.map(&:id).join(', ')} are neither approved nor canceled"
     end
   end
   
