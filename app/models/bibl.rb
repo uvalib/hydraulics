@@ -66,7 +66,6 @@ class Bibl < ActiveRecord::Base
     self.is_in_catalog = 0 if self.is_in_catalog.nil?
     self.is_manuscript = 0 if self.is_manuscript.nil?
     self.is_personal_item = 0 if self.is_personal_item.nil?
-    self.exemplar = nil if self.exemplar.blank?
     self.discoverability = 1 if self.discoverability.nil? # For Bibl objects, the default value is 1 (i.e. is discoverable)
     
     # get pid

@@ -103,7 +103,6 @@ class Order < ActiveRecord::Base
     self.is_approved = 0 if self.is_approved.nil? 
     self.is_approved = 1 if self.order_status == 'approved'
   end
-  before_save :set_blank_values_to_nil
   
   #------------------------------------------------------------------
   # scopes

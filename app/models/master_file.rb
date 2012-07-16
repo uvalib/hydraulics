@@ -74,7 +74,6 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   after_create :increment_counter_caches
   after_destroy :decrement_counter_caches
-  before_save :set_blank_values_to_nil
 
   #------------------------------------------------------------------
   # scopes
