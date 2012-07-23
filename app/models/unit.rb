@@ -133,4 +133,12 @@ class Unit < ActiveRecord::Base
   def in_dl?
     return self.date_dl_deliverables_ready?
   end
+
+  def ready_for_repo?
+    if self.include_in_dl == true and not self.availability_policy_id.nil? and self.date_queued_for_ingest.nil? and not self.date_archived.nil?
+      return true
+    else
+      return false
+    end
+  end
 end
