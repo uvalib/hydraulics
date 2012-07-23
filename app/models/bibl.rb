@@ -131,8 +131,13 @@ class Bibl < ActiveRecord::Base
     end  
   end
   
+  # Returns an array of MasterFile objects (:id and :filename only) for the purposes 
   def dl_master_files
-    return master_files.where("date_dl_deliverables_ready is NOT NULL")
+    if self.new_record?
+      return Array.new
+    else
+      return MasterFile.joins(:bibl).joins(:unit).where('`units`.include_in_dl = true').where("`bibls`.id = #{self.id}")
+    end
   end
     
   # Returns a boolean value indicating whether it is safe to delete this record
