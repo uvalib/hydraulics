@@ -7,7 +7,7 @@ class Component < ActiveRecord::Base
   belongs_to :indexing_scenario, :counter_cache => true
   belongs_to :use_rights, :counter_cache => true
   
-  has_many :automation_messages
+  has_many :automation_messages, :as => :messagable, :dependent => :destroy
   has_many :master_files
   has_many :image_master_files, :class_name => 'MasterFile', :conditions => "tech_meta_type = 'image'"
 
