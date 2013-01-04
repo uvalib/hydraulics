@@ -27,7 +27,7 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   # delegation
   #------------------------------------------------------------------
-  delegate :call_number, :title, :catalog_key, :barcode, :id, :creator_name,
+  delegate :call_number, :title, :catalog_key, :barcode, :id, :creator_name, :year,
     :to => :bibl, :allow_nil => true, :prefix => true
 
   delegate :include_in_dl, :exclude_in_dl, :date_archived, :date_queued_for_ingest, :date_dl_deliverables_ready,
@@ -91,10 +91,6 @@ class MasterFile < ActiveRecord::Base
   #------------------------------------------------------------------
   def in_dl?
     return self.date_dl_ingest?
-  end
-
-  def name
-    return self.filename
   end
 
   #------------------------------------------------------------------
