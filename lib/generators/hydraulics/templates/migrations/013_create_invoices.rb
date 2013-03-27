@@ -7,6 +7,7 @@ class CreateInvoices < ActiveRecord::Migration
       t.datetime :date_second_invoice_sent
       t.text :notes
       t.binary :invoice_copy, :limit => 2.megabytes
+      t.boolean :permanet_nonpayment, :default => false
 
       t.timestamps
     end

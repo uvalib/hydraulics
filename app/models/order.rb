@@ -44,6 +44,7 @@ class Order < ActiveRecord::Base
     lambda {|limit=5|
       order('date_request_submitted DESC').limit(limit)
     }
+  scope :unpaid, where("fee_actual > 0").joins(:invoices).where('`invoices`.date_fee_paid IS NULL').where('`invoices`.permanent_nonpayment IS false').where('`orders`.date_customer_notified > ?', 2.year.ago)
   default_scope :include => [:agency]
    
   #------------------------------------------------------------------
