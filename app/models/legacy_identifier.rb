@@ -25,5 +25,11 @@ class LegacyIdentifier < ActiveRecord::Base
   #------------------------------------------------------------------
   # public instance methods
   #------------------------------------------------------------------
-
+  def destroyable?
+    if self.master_files.empty? and self.components.empty? and self.bibls.empty?
+      return true
+    else
+      return false
+    end    
+  end
 end
