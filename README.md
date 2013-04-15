@@ -1,14 +1,14 @@
 # Welcome to Hydraulics
 
-[![Dependency Status](https://gemnasium.com/acurley/hydraulics.png)](https://gemnasium.com/acurley/hydraulics)
+[![Build Status](https://travis-ci.org/uvalib-dcs/hydraulics.png?branch=master)](https://travis-ci.org/uvalib-dcs/hydraulics)
 
 This gem is designed to be a plugin used within your own application
 
 
 ## Requirements
 
-* Ruby 1.9.2
-* Rails 3.2.1
+* Ruby 1.9.3
+* Rails 3.2.13
 
 If you are using an earlier version fo Fedora (i.e. 12), you must add to the Gemfile:
 
