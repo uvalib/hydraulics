@@ -1,0 +1,1 @@
+desc "Creates a test rails app for the specs to run against"

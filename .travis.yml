@@ -1,0 +1,3 @@
+script: bundle exec rake test
+rvm:
+  - 1.9.3
