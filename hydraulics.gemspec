@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails"
   s.add_dependency "ancestry"
   s.add_dependency "nokogiri"
-  s.add_dependency "validates_timeliness", "~> 3.0.6" # https://github.com/adzap/validates_timeliness
+  s.add_dependency "validates_timeliness" # https://github.com/adzap/validates_timeliness
   s.add_dependency "foreigner"
 
 end
