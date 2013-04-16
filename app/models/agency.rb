@@ -17,9 +17,7 @@ class Agency < ActiveRecord::Base
   #------------------------------------------------------------------
   # Should be :case_sensitive => true, but might be a bug in 3.1-rc6
   validates :name, :presence => true, :uniqueness => true 
-
-  before_destroy :destroyable?
-  
+ 
   #------------------------------------------------------------------
   # callbacks
   #------------------------------------------------------------------
