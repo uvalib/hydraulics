@@ -9,4 +9,4 @@ module SetBlankValuesToNil
   end
 end
 
-ActiveRecord::Base.send(:include, SetBlankValuesToNil)
+ActiveRecord::Base.extend SetBlankValuesToNil
