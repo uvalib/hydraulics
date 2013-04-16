@@ -20,7 +20,7 @@ class Bibl < ActiveRecord::Base
   has_many :customers, :through => :orders, :uniq => true
   has_many :master_files, :through => :units
   has_many :orders, :through => :units, :uniq => true
-  has_many :units
+  has_many :units, :dependent => :restrict
 
   #------------------------------------------------------------------
   # scopes
@@ -88,16 +88,7 @@ class Bibl < ActiveRecord::Base
       end
     end
   end
-  
-  before_destroy :destroyable?
-   
-  #------------------------------------------------------------------
-  # public class methods
-  #------------------------------------------------------------------
- 
-  #------------------------------------------------------------------
-  # public instance methods
-  #------------------------------------------------------------------
+
   # Returns an array of Bibl objects that are the parent, grandparent, etc... of the 
   # Bibl object upon which this method is invoked.
   def ancestors
@@ -135,15 +126,6 @@ class Bibl < ActiveRecord::Base
       return MasterFile.joins(:bibl).joins(:unit).where('`units`.include_in_dl = true').where("`bibls`.id = #{self.id}")
     end
   end
-    
-  # Returns a boolean value indicating whether it is safe to delete this record
-  # from the database. Returns +false+ if this record has dependent records in
-  # other tables, namely associated Unit, Component, or EadRef records.
-  #
-  # This method is public but is also called as a +before_destroy+ callback.
-  def destroyable?
-    components? || units?    
-  end
 
   def in_catalog?
     self.catalog_key?
@@ -172,9 +154,6 @@ class Bibl < ActiveRecord::Base
   def units?
     units.any?  
   end
-  
-  #------------------------------------------------------------------
-  # aliases
-  #------------------------------------------------------------------
+
   alias :parent :parent_bibl
 end
