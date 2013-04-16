@@ -1,11 +1,10 @@
-require 'hydraulics'
-
 module Hydraulics
-  class Engine < Rails::Engine
-    engine_name :hydraulics
-
-    # rake_tasks do
-    #   load "railties/tasks.rake"
-    # end
+  class Engine < ::Rails::Engine
+    config.generators do |g|
+      g.test_framework      :rspec,        :fixture => false
+      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
+      g.assets false
+      g.helper false
+    end
   end
 end

@@ -4,6 +4,7 @@
 
 This gem is designed to be a plugin used within your own application
 
+If something doesn't load, check history on lib/hydraulics/engine.rb
 
 ## Requirements
 
