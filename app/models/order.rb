@@ -150,19 +150,11 @@ class Order < ActiveRecord::Base
   # Returns a boolean value indicating whether the Order is approved
   # for digitization ("order") or not ("request").
   def approved?
-    if order_status == 'approved'
-      return true
-    else
-      return false
-    end
+    order_status == 'approved'
   end
 
   def canceled?
-    if order_status == 'canceled'
-      return true
-    else
-      return false
-    end
+    order_status == 'canceled'
   end
 
   # Returns a boolean value indicating whether it is safe to delete
