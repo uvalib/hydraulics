@@ -124,11 +124,7 @@ class Bibl < ActiveRecord::Base
   end
   
   def components?
-    if components.any?
-      return true
-    else
-      return false
-    end  
+    components.any?
   end
   
   # Returns an array of MasterFile objects (:id and :filename only) for the purposes 
@@ -146,19 +142,15 @@ class Bibl < ActiveRecord::Base
   #
   # This method is public but is also called as a +before_destroy+ callback.
   def destroyable?
-    if components? || units?
-      return false
-    else
-      return true
-    end      
+    components? || units?    
   end
 
   def in_catalog?
-    return self.catalog_key?
+    self.catalog_key?
   end
 
   def in_dl?
-    return self.date_dl_ingest?
+    self.date_dl_ingest?
   end
       
   def master_file_filenames
@@ -174,15 +166,11 @@ class Bibl < ActiveRecord::Base
   end
 
   def personal_item?
-    return self.is_personal_item
+    self.is_personal_item
   end
  
   def units?
-    if units.any?
-      return true
-    else
-      return false
-    end  
+    units.any?  
   end
   
   #------------------------------------------------------------------
