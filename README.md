@@ -1,6 +1,8 @@
 # Welcome to Hydraulics
 
 [![Build Status](https://travis-ci.org/uvalib-dcs/hydraulics.png?branch=master)](https://travis-ci.org/uvalib-dcs/hydraulics)
+[![Dependency Status](https://gemnasium.com/uvalib-dcs/hydraulics.png)](https://gemnasium.com/uvalib-dcs/hydraulics)
+[![Coverage Status](https://coveralls.io/repos/uvalib-dcs/hydraulics/badge.png?branch=master)](https://coveralls.io/r/uvalib-dcs/hydraulics)
 [![Code Climate](https://codeclimate.com/github/uvalib-dcs/hydraulics.png)](https://codeclimate.com/github/uvalib-dcs/hydraulics)
 
 This gem is designed to be a plugin used within your own application
