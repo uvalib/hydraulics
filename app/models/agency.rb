@@ -52,22 +52,18 @@ class Agency < ActiveRecord::Base
   # This method is public but is also called as a +before_destroy+ callback.
   # def destroyable?  
   def destroyable?
-    if orders? || requests?
-      return false
-    else
-      return true
-    end
+    ! orders? || ! requests?
   end
   
   # Returns a boolean value indicating whether this Customer has
   # associated Order records.
   def orders?
-   return orders.any?
+    orders.any?
   end
    
   # Returns a boolean value indicating whether this Customer has
   # associated Request (unapproved Order) records.
   def requests?
-   return requests.any?
+    requests.any?
   end
 end
