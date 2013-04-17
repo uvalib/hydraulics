@@ -1,10 +1,6 @@
 class Order < ActiveRecord::Base
-
   ORDER_STATUSES = %w[requested deferred canceled approved]
 
-  #------------------------------------------------------------------
-  # relationships
-  #------------------------------------------------------------------
   belongs_to :agency, :counter_cache => true
   belongs_to :customer, :counter_cache => true, :inverse_of => :orders
   belongs_to :dvd_delivery_location, :counter_cache => true
@@ -13,7 +9,7 @@ class Order < ActiveRecord::Base
   has_many :bibls, :through => :units
   has_many :invoices, :dependent => :destroy
   has_many :master_files, :through => :units
-  has_many :units, :inverse_of => :order
+  has_many :units, :inverse_of => :order, :dependent => :restrict
   has_many :heard_about_resources, :through => :units, :uniq => true
 
   has_one :academic_status, :through => :customer
@@ -22,17 +18,11 @@ class Order < ActiveRecord::Base
   has_one :primary_address, :through => :customer
   has_one :billable_address, :through => :customer
 
-  #------------------------------------------------------------------
-  # delegation
-  #------------------------------------------------------------------
   delegate :full_name, :last_name, :first_name,
     :to => :customer, :allow_nil => true, :prefix => true
   delegate :name, 
     :to => :agency, :allow_nil => true, :prefix => true
-  
-  #------------------------------------------------------------------
-  # scopes
-  #------------------------------------------------------------------
+
   scope :complete, where("date_archiving_complete is not null")
   scope :deferred, where("order_status = 'deferred'")
   scope :in_process, where("date_archiving_complete is null").where("order_status = 'approved'")
@@ -46,10 +36,7 @@ class Order < ActiveRecord::Base
     }
   scope :unpaid, where("fee_actual > 0").joins(:invoices).where('`invoices`.date_fee_paid IS NULL').where('`invoices`.permanent_nonpayment IS false').where('`orders`.date_customer_notified > ?', 2.year.ago).order('fee_actual desc')
   default_scope :include => [:agency]
-   
-  #------------------------------------------------------------------
-  # validations
-  #------------------------------------------------------------------
+
   validates :date_due, :date_request_submitted, :presence => {
     :message => 'is required.'
   }
@@ -94,9 +81,6 @@ class Order < ActiveRecord::Base
   # allowed in the text to prevent cross site scripting.
   validates :order_title, :entered_by, :special_instructions, :xss => true           
  
-  #------------------------------------------------------------------
-  # callbacks
-  #------------------------------------------------------------------
   before_destroy :destroyable?
   
   before_save do
@@ -104,39 +88,9 @@ class Order < ActiveRecord::Base
     self.is_approved = 0 if self.is_approved.nil? 
     self.is_approved = 1 if self.order_status == 'approved'
   end
-  
-  #------------------------------------------------------------------
-  # scopes
-  #------------------------------------------------------------------
 
-  #------------------------------------------------------------------
-  # aliases
-  #------------------------------------------------------------------
   alias_attribute :name, :id
-  
-  #------------------------------------------------------------------
-  # serializations
-  #------------------------------------------------------------------
-  # Email sent to customers should be save to DB as a TMail object.  During order delivery approval phase, the email
-  # must be revisited when staff decide to send it.
-  #serialize :email, TMail::Mail
-  
-  #------------------------------------------------------------------
-  # public class methods
-  #------------------------------------------------------------------
-  # Returns a string containing a brief, general description of this
-  # class/model.
-  def Order.class_description
-    return 'Order represents an order for digitization, placed by a Customer and made up of one or more Units.'
-  end
 
-  def Order.entered_by_description
-    return "ID of person who filled out the public request form on behalf of the Customer."
-  end
-  
-  #------------------------------------------------------------------
-  # public instance methods
-  #------------------------------------------------------------------
   # Returns a boolean value indicating whether the Order is active, which is
   # true unless the Order has been canceled or deferred.
   def active?
@@ -157,20 +111,6 @@ class Order < ActiveRecord::Base
     order_status == 'canceled'
   end
 
-  # Returns a boolean value indicating whether it is safe to delete
-  # this Order from the database. Returns +false+ if this record has
-  # dependent records in other tables, namely associated Unit or
-  # Invoice records.
-  #
-  # This method is public but is also called as a +before_destroy+ callback.
-  def destroyable?               
-    if units? || invoices?        
-      return false 
-    else
-      return true
-    end  
-  end
-  
   # Returns a boolean value indicating whether this Order has
   # associated Invoice records.
   def invoices?
