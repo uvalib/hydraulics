@@ -1,7 +1,5 @@
+# Customer represents a person with Requests and/or Orders for digitization.
 class Customer < ActiveRecord::Base
-  #------------------------------------------------------------------
-  # relationships
-  #------------------------------------------------------------------
   belongs_to :academic_status, :counter_cache => true
   belongs_to :department, :counter_cache => true
   belongs_to :heard_about_service, :counter_cache => true
@@ -26,10 +24,7 @@ class Customer < ActiveRecord::Base
     :to => :primary_address, :allow_nil => true, :prefix => true
   delegate :organization,
     :to => :billable_address, :allow_nil => true, :prefix => true
- 
-  #------------------------------------------------------------------
-  # validations
-  #------------------------------------------------------------------
+
   validates :last_name, :first_name, :email, :presence => {
     :message => 'is required.'
   }
@@ -56,11 +51,7 @@ class Customer < ActiveRecord::Base
               :message => "association with this Customer is no longer valid because the Department object no longer exists."
             }
 
-  #------------------------------------------------------------------
-  # callbacks
-  #------------------------------------------------------------------
-  before_destroy :destroyable?
-  
+ 
   #------------------------------------------------------------------
   # scopes
   #------------------------------------------------------------------
@@ -72,7 +63,7 @@ class Customer < ActiveRecord::Base
   # Returns a string containing a brief, general description of this
   # class/model.
   def Customer.class_description
-    return 'Customer represents a person with Requests and/or Orders for digitization.'
+    return 
   end
   
   #------------------------------------------------------------------
