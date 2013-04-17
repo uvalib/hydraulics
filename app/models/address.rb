@@ -9,4 +9,5 @@ class Address < ActiveRecord::Base
   validates :city, :city_format => true, :allow_blank => true
   validates :phone, :phone_format => true, :allow_blank => true
 
+  validates_associated :addressable
 end

@@ -31,8 +31,6 @@ class Customer < ActiveRecord::Base
   validates :email, :uniqueness => true, :email => true # Email serves as a Customer object's unique identifier
   validates :last_name, :first_name, :person_name_format => true
 
-  validates_presence_of :primary_address
-
   # Validating presence of continued association with valid external data
   validates :heard_about_service, 
             :presence => {
