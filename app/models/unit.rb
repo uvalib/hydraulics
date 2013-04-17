@@ -2,9 +2,6 @@ class Unit < ActiveRecord::Base
 
   UNIT_STATUSES = %w[approved canceled condition copyright unapproved]
 
-  #------------------------------------------------------------------
-  # relationships
-  #------------------------------------------------------------------
   belongs_to :archive, :counter_cache => true
   belongs_to :availability_policy, :counter_cache => true
   belongs_to :bibl, :counter_cache => true
@@ -30,9 +27,6 @@ class Unit < ActiveRecord::Base
   delegate :deliverable_format, :deliverable_resolution, :deliverable_resolution_unit,
     :to => :intended_use, :allow_nil => true, :prefix => true
 
-  #------------------------------------------------------------------
-  # scopes
-  #------------------------------------------------------------------  
   scope :in_repo, where("date_dl_deliverables_ready IS NOT NULL").order("date_dl_deliverables_ready DESC")
   scope :ready_for_repo, where(:include_in_dl => true).where("`units`.availability_policy_id IS NOT NULL").where(:date_queued_for_ingest => nil).where("date_archived is not null")
   scope :checkedout_materials, where("date_materials_received IS NOT NULL AND date_materials_returned IS NULL")
@@ -42,15 +36,7 @@ class Unit < ActiveRecord::Base
   scope :approved, where(:unit_status => 'approved')
   scope :unapproved, where(:unit_status => 'unapproved')
   scope :canceled, where(:unit_status => 'canceled')
-  # Unit.joins(:order).where('orders.date_finalization_begun IS NOT NULL').where(:units => {:date_archived => nil})
-  #------------------------------------------------------------------
-  # validations
-  #------------------------------------------------------------------
-  # validates :intended_use_id, :presence => {
-  #   :message => "must have an Intended Use."
-  # }
-  
-  # validates :order_id, :numericality => { :greater_than => 1 }
+
   validates_presence_of :order
   validates :patron_source_url, :format => {:with => URI::regexp(['http','https'])}, :allow_blank => true
   validates :archive, :presence => {
@@ -85,53 +71,23 @@ class Unit < ActiveRecord::Base
     :message => "association with this UseRight is no longer valid because it no longer exists."
   }
 
-  # comment this out for the time being
-  # validates :unit_status, :inclusion => { :in => UNIT_STATUSES, :message => 'must be one of these values: ' + UNIT_STATUSES.join(", ")}
- 
-  #------------------------------------------------------------------
-  # callbacks
-  #------------------------------------------------------------------
   before_save do 
-    # boolean fields cannot be NULL at database level
-    self.exclude_from_dl = 0 if self.exclude_from_dl.nil?
-    self.include_in_dl = 0 if self.include_in_dl.nil?
-    self.master_file_discoverability = 0 if self.master_file_discoverability.nil?
-    self.order_id = 0 if self.order_id.nil?
-    self.remove_watermark = 0 if self.remove_watermark.nil?
     self.unit_status = "unapproved" if self.unit_status.nil? || self.unit_status.empty?
   end
 
-  #------------------------------------------------------------------
-  # aliases
-  #------------------------------------------------------------------
   # Necessary for Active Admin to poplulate pulldown menu
   alias_attribute :name, :id
 
-  #------------------------------------------------------------------
-  # public class methods
-  #------------------------------------------------------------------
- 
-  #------------------------------------------------------------------
-  # public instance methods
-  #------------------------------------------------------------------
   def approved?
-    if self.unit_status == "approved"
-      return true
-    else
-      return false
-    end
+    unit_status == "approved"
   end
 
   def canceled?
-    if self.unit_status == "canceled"
-      return true
-    else
-      return false
-    end
+    unit_status == "canceled"
   end
 
   def in_dl?
-    return self.date_dl_deliverables_ready?
+    self.date_dl_deliverables_ready?
   end
 
   def ready_for_repo?
