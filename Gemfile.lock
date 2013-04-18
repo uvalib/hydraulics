@@ -3,6 +3,7 @@ PATH
   specs:
     hydraulics (0.0.1)
       ancestry
+      faker
       foreigner
       nokogiri
       rails (~> 3.2.13)
@@ -62,6 +63,8 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    faker (1.1.2)
+      i18n (~> 0.5)
     foreigner (1.4.1)
       activerecord (>= 3.0.0)
     hike (1.2.2)
@@ -149,6 +152,7 @@ DEPENDENCIES
   capybara
   coveralls
   factory_girl_rails
+  faker
   foreigner
   hydraulics!
   jquery-rails

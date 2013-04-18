@@ -12,6 +12,7 @@ gem "jquery-rails"
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
+gem "faker"
 gem "foreigner"
 gem "ancestry"
 gem "validates_timeliness" # https://github.com/adzap/validates_timeliness
