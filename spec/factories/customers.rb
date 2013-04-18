@@ -10,9 +10,5 @@ FactoryGirl.define do
     factory :customer_with_primary_address do
       after(:create) {|object| FactoryGirl.create(:primary_address, addressable: object)}
     end
-
-    factory :external_customer do
-      association :academic_status, factory: :external_academic_status
-    end
   end
 end

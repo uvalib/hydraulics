@@ -2,5 +2,6 @@
 
 FactoryGirl.define do
   factory :academic_status do
+    name Faker::Company.name
   end
 end
