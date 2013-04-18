@@ -23,8 +23,6 @@ class Bibl < ActiveRecord::Base
   scope :in_digital_library, where("bibls.date_dl_ingest is not null").order("bibls.date_dl_ingest DESC")
   scope :not_in_digital_library, where("bibls.date_dl_ingest is null")
   scope :not_approved, where(:is_approved => false)
-  scope :has_exemplars, where("exemplar is NOT NULL")
-  scope :need_exemplars, where("exemplar is NULL")
 
   #------------------------------------------------------------------
   # delegation
@@ -53,16 +51,7 @@ class Bibl < ActiveRecord::Base
   #------------------------------------------------------------------
   # callbacks
   #------------------------------------------------------------------
-  before_save do      
-    # get pid
-    if self.pid.blank?
-      begin
-        self.pid = AssignPids.get_pid
-      rescue Exception => e
-        #ErrorMailer.deliver_notify_pid_failure(e) unless @skip_pid_notification
-      end
-    end
-
+  before_save do     
     # Moved from after_initialize in order to make compliant with 2.3.8
     if self.is_in_catalog.nil?
       # set default value
@@ -100,10 +89,6 @@ class Bibl < ActiveRecord::Base
     end
   end
   
-  def components?
-    components.any?
-  end
-  
   # Returns an array of MasterFile objects (:id and :filename only) for the purposes 
   def dl_master_files
     if self.new_record?
@@ -136,10 +121,7 @@ class Bibl < ActiveRecord::Base
   def personal_item?
     self.is_personal_item
   end
- 
-  def units?
-    units.any?  
-  end
+
 
   alias :parent :parent_bibl
 end

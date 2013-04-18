@@ -11,12 +11,4 @@ class Agency < ActiveRecord::Base
 
   # Should be :case_sensitive => true, but might be a bug in 3.1-rc6
   validates :name, :presence => true, :uniqueness => {:case_sensitive => true} 
-
-  def orders?
-    orders.any?
-  end
-
-  def requests?
-    requests.any?
-  end
 end
