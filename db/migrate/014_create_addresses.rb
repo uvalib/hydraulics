@@ -2,8 +2,8 @@ class CreateAddresses < ActiveRecord::Migration
   def change
     create_table :addresses do |t|
       # Custom polymorphism
-      t.integer :addressable_id, :null => false
-      t.string :addressable_type, :null => false, :limit => 20
+      t.integer :addressable_id, :null => true
+      t.string :addressable_type, :limit => 20
       t.string :address_type, :null => false, :limit => 20
 
       t.string :last_name
