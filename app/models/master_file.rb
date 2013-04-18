@@ -1,8 +1,4 @@
 class MasterFile < ActiveRecord::Base
-
-  #------------------------------------------------------------------
-  # relationships
-  #------------------------------------------------------------------
   belongs_to :availability_policy, :counter_cache => true
   belongs_to :component, :counter_cache => true
   belongs_to :indexing_scenario, :counter_cache => true
@@ -24,9 +20,6 @@ class MasterFile < ActiveRecord::Base
   has_one :heard_about_resource, :through => :unit
   has_one :heard_about_service, :through => :customer
 
-  #------------------------------------------------------------------
-  # delegation
-  #------------------------------------------------------------------
   delegate :call_number, :title, :catalog_key, :barcode, :id, :creator_name, :year,
     :to => :bibl, :allow_nil => true, :prefix => true
 
@@ -44,10 +37,7 @@ class MasterFile < ActiveRecord::Base
 
   delegate :name,
     :to => :agency, :allow_nil => true, :prefix => true
-  
-  #------------------------------------------------------------------
-  # validations
-  #------------------------------------------------------------------  
+
   validates :filename, :unit_id, :filesize, :presence => true
   validates :availability_policy, :presence => {
     :if => 'self.availability_policy_id',
@@ -69,26 +59,13 @@ class MasterFile < ActiveRecord::Base
     :message => "association with this Use is no longer valid because it no longer exists."
   }
 
-  #------------------------------------------------------------------
-  # callbacks
-  #------------------------------------------------------------------
   after_create :increment_counter_caches
   after_destroy :decrement_counter_caches
 
-  #------------------------------------------------------------------
-  # scopes
-  #------------------------------------------------------------------  
   scope :in_digital_library, where("master_files.date_dl_ingest is not null").order("master_files.date_dl_ingest ASC")
   scope :not_in_digital_library, where("master_files.date_dl_ingest is null")
   # default_scope :include => [:availability_policy, :component, :indexing_scenario, :unit, :use_right]
 
-  #------------------------------------------------------------------
-  # public class methods
-  #------------------------------------------------------------------
- 
-  #------------------------------------------------------------------
-  # public instance methods
-  #------------------------------------------------------------------
   def in_dl?
     return self.date_dl_ingest?
   end
