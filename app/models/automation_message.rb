@@ -1,4 +1,3 @@
-# Automation Message is a message sent during an automated process, saved to the database for later review by staff.
 class AutomationMessage < ActiveRecord::Base
   
   MESSAGE_TYPES = %w[error success failure info]
