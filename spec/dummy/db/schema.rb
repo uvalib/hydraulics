@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(:version => 29) do
   add_index "academic_statuses", ["name"], :name => "index_academic_statuses_on_name", :unique => true
 
   create_table "addresses", :force => true do |t|
-    t.integer  "addressable_id",                 :null => false
-    t.string   "addressable_type", :limit => 20, :null => false
+    t.integer  "addressable_id"
+    t.string   "addressable_type", :limit => 20
     t.string   "address_type",     :limit => 20, :null => false
     t.string   "last_name"
     t.string   "first_name"
