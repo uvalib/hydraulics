@@ -16,30 +16,32 @@ class CreateBibls < ActiveRecord::Migration
       t.boolean :is_personal_item, :null => false, :default => 0
          
       # Catalog information, pulled from Blacklight/Solr, if available
-      t.string :barcode
-      t.string :call_number
-      t.string :catalog_key
+      t.string :barcode, :call_number, :catalog_key, :creator_name, :creator_name_type, :genre, :issue, 
+      :location, :resource_type, :series_title, :title_control, :title_control, :year, :year_type, :pid,
+      :exemplar
+      # t.string :call_number
+      # t.string :catalog_key
       t.text :citation
       t.integer :copy
-      t.string :creator_name
-      t.string :creator_name_type
-      t.string :genre
-      t.string :issue # Not pulled from Blacklight; used to provide unique bibliographic information for journals
-      t.string :location
-      t.string :resource_type
-      t.string :series_title
-      t.string :title
-      t.string :title_control
-      t.string :volume # Not pulled from Blacklight; used to provide unique bibliographic information for journals
-      t.string :year
-      t.string :year_type
+      # t.string :creator_name
+      # t.string :creator_name_type
+      # t.string :genre
+      # t.string :issue # Not pulled from Blacklight; used to provide unique bibliographic information for journals
+      # t.string :location
+      # t.string :resource_type
+      # t.string :series_title
+      # t.string :title
+      # t.string :title_control
+      # t.string :volume # Not pulled from Blacklight; used to provide unique bibliographic information for journals
+      # t.string :year
+      # t.string :year_type
       
       # DL Objects Only
       t.text :dc
       t.text :desc_metadata
       t.boolean :discoverability, :default => true # The defaul for Bibl objects is that they are discoverable
-      t.string :exemplar
-      t.string :pid # All Bibl objects get PIDs; only used if Bibl object is ingested into repository
+      # t.string :exemplar
+      # t.string :pid # All Bibl objects get PIDs; only used if Bibl object is ingested into repository
       t.text :rels_ext
       t.text :rels_int
       t.text :solr, :limit => 16777215
