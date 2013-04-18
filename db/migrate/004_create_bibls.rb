@@ -17,7 +17,7 @@ class CreateBibls < ActiveRecord::Migration
          
       # Catalog information, pulled from Blacklight/Solr, if available
       t.string :barcode, :call_number, :catalog_key, :creator_name, :creator_name_type, :genre, :issue, 
-      :location, :resource_type, :series_title, :title_control, :title_control, :year, :year_type, :pid,
+      :location, :resource_type, :series_title, :title, :title_control, :year, :year_type, :pid,
       :exemplar
       # t.string :call_number
       # t.string :catalog_key
