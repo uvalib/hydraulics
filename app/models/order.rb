@@ -82,39 +82,13 @@ class Order < ActiveRecord::Base
   validates :order_title, :entered_by, :special_instructions, :xss => true           
  
   before_destroy :destroyable?
-  
-  before_save do
-    # boolean fields cannot be NULL at database level
-    self.is_approved = 0 if self.is_approved.nil? 
-    self.is_approved = 1 if self.order_status == 'approved'
-  end
 
   alias_attribute :name, :id
 
   # Returns a boolean value indicating whether the Order is active, which is
   # true unless the Order has been canceled or deferred.
   def active?
-    if order_status == 'canceled' or order_status == 'deferred'
-      return false
-    else
-      return true
-    end
-  end
-  
-  # Returns a boolean value indicating whether the Order is approved
-  # for digitization ("order") or not ("request").
-  def approved?
-    order_status == 'approved'
-  end
-
-  def canceled?
-    order_status == 'canceled'
-  end
-
-  # Returns a boolean value indicating whether this Order has
-  # associated Invoice records.
-  def invoices?
-    return invoices.any?
+    order_status != 'canceled' && order_status != 'deferred'
   end
 
   # Returns units belonging to current order that are not ready to proceed with digitization and would prevent an order from being approved.
@@ -132,11 +106,4 @@ class Order < ActiveRecord::Base
       errors[:order_status] << "cannot be set to approved because units #{units_beings_prepared.map(&:id).join(', ')} are neither approved nor canceled"
     end
   end
-  
-  # Returns a boolean value indicating whether this Order has
-  # associated Unit records.
-  def units?
-    return units.any?
-  end
-
 end
