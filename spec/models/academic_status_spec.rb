@@ -7,5 +7,4 @@ describe AcademicStatus do
    it { should have_many(:requests).through(:customers) }
    it { should have_many(:units).through(:orders) }
    it { should have_many(:master_files).through(:units) }
-
 end

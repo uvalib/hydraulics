@@ -1,13 +1,8 @@
 class MasterFile < ActiveRecord::Base
-  belongs_to :availability_policy, :counter_cache => true
-  belongs_to :component, :counter_cache => true
-  belongs_to :indexing_scenario, :counter_cache => true
-  belongs_to :unit, :counter_cache => true
-  belongs_to :use_right, :counter_cache => true
+  include Pidable
 
-  has_and_belongs_to_many :legacy_identifiers
-  
-  has_many :automation_messages, :as => :messagable, :dependent => :destroy
+  belongs_to :component, :counter_cache => true
+  belongs_to :unit, :counter_cache => true
 
   has_one :image_tech_meta, :dependent => :destroy
   has_one :order, :through => :unit
@@ -28,51 +23,28 @@ class MasterFile < ActiveRecord::Base
 
   delegate :date_due, :date_order_approved, :date_request_submitted, :date_customer_notified, :id,
     :to => :order, :allow_nil => true, :prefix => true
-    
+
   delegate :full_name, :id, :last_name, :first_name,
     :to => :customer, :allow_nil => true, :prefix => true
 
-  delegate :name, 
+  delegate :name,
     :to => :academic_status, :allow_nil => true, :prefix => true
 
   delegate :name,
     :to => :agency, :allow_nil => true, :prefix => true
 
   validates :filename, :unit_id, :filesize, :presence => true
-  validates :availability_policy, :presence => {
-    :if => 'self.availability_policy_id',
-    :message => "association with this AvailabilityPolicy is no longer valid because it no longer exists."
-  }
   validates :component, :presence => {
     :if => 'self.component_id',
     :message => "association with this Component is no longer valid because it no longer exists."
   }
-  validates :indexing_scenario, :presence => {
-    :if => 'self.indexing_scenario_id',
-    :message => "association with this IndexingScenario is no longer valid because it no longer exists."
-  }
   validates :unit, :presence => {
     :message => "association with this Unit is no longer valid because it no longer exists."
-  }
-  validates :use_right, :presence => {
-    :if => 'self.use_right_id',
-    :message => "association with this Use is no longer valid because it no longer exists."
   }
 
   after_create :increment_counter_caches
   after_destroy :decrement_counter_caches
 
-  scope :in_digital_library, where("master_files.date_dl_ingest is not null").order("master_files.date_dl_ingest ASC")
-  scope :not_in_digital_library, where("master_files.date_dl_ingest is null")
-  # default_scope :include => [:availability_policy, :component, :indexing_scenario, :unit, :use_right]
-
-  def in_dl?
-    return self.date_dl_ingest?
-  end
-
-  #------------------------------------------------------------------
-  # private instance methods
-  #------------------------------------------------------------------
   private
 
   def increment_counter_caches

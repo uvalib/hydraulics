@@ -1,5 +1,5 @@
 class AutomationMessage < ActiveRecord::Base
-  
+
   MESSAGE_TYPES = %w[error success failure info]
   WORKFLOW_TYPES = %w[administrative archive delivery patron production qa repository unknown]
   APPS = %w[hydraulics]
@@ -7,11 +7,11 @@ class AutomationMessage < ActiveRecord::Base
   belongs_to :messagable, :polymorphic => true, :counter_cache => true
 
   validates :message, :app, :processor, :message_type, :workflow_type, :presence => true
-  validates :workflow_type, :inclusion => { :in => WORKFLOW_TYPES, 
+  validates :workflow_type, :inclusion => { :in => WORKFLOW_TYPES,
       :message => 'must be one of these values: ' + WORKFLOW_TYPES.join(", ")}
-  validates :message_type, :inclusion => { :in => MESSAGE_TYPES, 
+  validates :message_type, :inclusion => { :in => MESSAGE_TYPES,
       :message => 'must be one of these values: ' + MESSAGE_TYPES.join(", ")}
-  validates :app, :inclusion => { :in => APPS, 
+  validates :app, :inclusion => { :in => APPS,
       :message => 'must be one of these values: ' + APPS.join(", ")}
   validates :messagable, :presence => true
 

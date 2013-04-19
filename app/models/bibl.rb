@@ -1,57 +1,26 @@
 class Bibl < ActiveRecord::Base
+  include Pidable
 
   CREATOR_NAME_TYPES = %w[corporate personal]
   YEAR_TYPES = %w[copyright creation publication]
   GENRES = ['abstract or summary', 'art original', 'art reproduction', 'article', 'atlas', 'autobiography', 'bibliography', 'biography', 'book', 'catalog', 'chart', 'comic strip', 'conference publication', 'database', 'dictionary', 'diorama', 'directory', 'discography', 'drama', 'encyclopedia', 'essay', 'festschrift', 'fiction', 'filmography', 'filmstrip', 'finding aid', 'flash card', 'folktale', 'font', 'game', 'government publication', 'graphic', 'globe', 'handbook', 'history', 'hymnal', 'humor, satire', 'index', 'instruction', 'interview', 'issue', 'journal', 'kit', 'language instruction', 'law report or digest', 'legal article', 'legal case and case notes', 'legislation', 'letter', 'loose-leaf', 'map', 'memoir', 'microscope slide', 'model', 'motion picture', 'multivolume monograph', 'newspaper', 'novel', 'numeric data', 'offprint', 'online system or service', 'patent', 'periodical', 'picture', 'poetry', 'programmed text', 'realia', 'rehearsal', 'remote sensing image', 'reporting', 'review', 'script', 'series', 'short story', 'slide', 'sound', 'speech', 'statistics', 'survey of literature', 'technical drawing', 'technical report', 'thesis', 'toy', 'transparency', 'treaty', 'videorecording', 'web site']
   RESOURCE_TYPES = ['text', 'cartographic', 'notated music', 'sound recording', 'sound recording-musical', 'sound recording-nonmusical', 'still image', 'moving image', 'three dimensional object', 'software, multimedia', 'mixed material']
 
-  belongs_to :availability_policy, :counter_cache => true
-  belongs_to :indexing_scenario, :counter_cache => true
-  belongs_to :use_right, :counter_cache => true
-  
-  has_and_belongs_to_many :legacy_identifiers
   has_and_belongs_to_many :components
 
   has_many :agencies, :through => :orders
-  has_many :automation_messages, :as => :messagable, :dependent => :destroy
   has_many :customers, :through => :orders, :uniq => true
   has_many :master_files, :through => :units
   has_many :orders, :through => :units, :uniq => true
   has_many :units, :dependent => :restrict
- 
+
   scope :approved, where(:is_approved => true)
-  scope :in_digital_library, where("bibls.date_dl_ingest is not null").order("bibls.date_dl_ingest DESC")
-  scope :not_in_digital_library, where("bibls.date_dl_ingest is null")
   scope :not_approved, where(:is_approved => false)
-
-  #------------------------------------------------------------------
-  # delegation
-  #------------------------------------------------------------------
-  # delegate :id, 
-  #   :to => :unit, :allow_nil => true, :prefix => true
-
-  # delegate :id, 
-  #   :to => :order, :allow_nil => true, :prefix => true
 
   delegate :id, :email,
     :to => :customers, :allow_nil => true, :prefix => true
 
-  #------------------------------------------------------------------
-  # validations
-  #------------------------------------------------------------------
-  validates :availability_policy, :presence => {
-    :if => 'self.availability_policy_id',
-    :message => "association with this AvailabilityPolicy is no longer valid because it no longer exists."
-  }
-  validates :indexing_scenario, :presence => {
-    :if => 'self.indexing_scenario_id',
-    :message => "association with this IndexingScenario is no longer valid because it no longer exists."
-  }
-  
-  #------------------------------------------------------------------
-  # callbacks
-  #------------------------------------------------------------------
-  before_save do     
+  before_save do
     # Moved from after_initialize in order to make compliant with 2.3.8
     if self.is_in_catalog.nil?
       # set default value
@@ -64,7 +33,7 @@ class Bibl < ActiveRecord::Base
     end
   end
 
-  # Returns an array of Bibl objects that are the parent, grandparent, etc... of the 
+  # Returns an array of Bibl objects that are the parent, grandparent, etc... of the
   # Bibl object upon which this method is invoked.
   def ancestors
     parent_bibls = Array.new
@@ -79,17 +48,17 @@ class Bibl < ActiveRecord::Base
       end
     end
   end
-  
+
   # Returns the array of Bibl objects for which this Bibl is parent.
   def child_bibls
-    begin 
+    begin
       return Bibl.find(:all, :conditions => "parent_bibl_id = #{id}")
     rescue ActiveRecord::RecordNotFound
       return Array.new
     end
   end
-  
-  # Returns an array of MasterFile objects (:id and :filename only) for the purposes 
+
+  # Returns an array of MasterFile objects (:id and :filename only) for the purposes
   def dl_master_files
     if self.new_record?
       return Array.new
@@ -102,14 +71,10 @@ class Bibl < ActiveRecord::Base
     self.catalog_key?
   end
 
-  def in_dl?
-    self.date_dl_ingest?
-  end
-      
   def master_file_filenames
-    return master_files.pluck(:filename) 
+    return master_files.pluck(:filename)
   end
-  
+
   def parent_bibl
     begin
       return Bibl.find(parent_bibl_id)
@@ -121,7 +86,6 @@ class Bibl < ActiveRecord::Base
   def personal_item?
     self.is_personal_item
   end
-
 
   alias :parent :parent_bibl
 end
