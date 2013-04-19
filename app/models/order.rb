@@ -75,7 +75,7 @@ class Order < ActiveRecord::Base
                     :allow_blank => true
 
   # validates that an order_status cannot equal approved if any of it's Units.unit_status != "approved" || "canceled"
-  validate :validate_order_approval, :on => :update, :if => 'self.order_status == "approved"'
+  validate :validate_order_approval
                     
   # Validate data that could be coming in from the request form such that < and > are not
   # allowed in the text to prevent cross site scripting.
@@ -88,22 +88,21 @@ class Order < ActiveRecord::Base
   # Returns a boolean value indicating whether the Order is active, which is
   # true unless the Order has been canceled or deferred.
   def active?
-    order_status != 'canceled' && order_status != 'deferred'
+    # order_status != 'canceled' && order_status != 'deferred'
+    ['requested', 'approved'].include?(order_status)
   end
 
   # Returns units belonging to current order that are not ready to proceed with digitization and would prevent an order from being approved.
   # Only units whose unit_status = 'approved' or 'canceled' are removed from consideration by this method.
-  def has_units_being_prepared
-    units_beings_prepared = Unit.where(:order_id => self.id).where('unit_status = "unapproved" or unit_status = "condition" or unit_status = "copyright"')
-    return units_beings_prepared
-  end
+  # def has_units_being_prepared
+    
+  # end
 
   # A validation callback which returns to the Order#edit view the IDs of Units which are preventing the Order from being approved because they 
   # are neither approved or canceled.
   def validate_order_approval
-    units_beings_prepared = self.has_units_being_prepared
-    if not units_beings_prepared.empty?
-      errors[:order_status] << "cannot be set to approved because units #{units_beings_prepared.map(&:id).join(', ')} are neither approved nor canceled"
+    if order_status == 'approved' && !new_record?  && units.where('unit_status = ? or unit_status = ? or unit_status = ?', "unapproved", "condition", "copyright").any?
+      errors[:order_status] << "cannot be set to approved because several units are neither approved nor canceled."
     end
   end
 end
