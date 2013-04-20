@@ -6,7 +6,5 @@ module Hydraulics
       g.assets false
       g.helper false
     end
-
-    config.active_record.observers = :add_pid_observer, :blank_value_observer
   end
 end

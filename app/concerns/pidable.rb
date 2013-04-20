@@ -2,6 +2,8 @@
 module Pidable
   extend ActiveSupport::Concern
 
+  require 'rubydora'
+
   included do
     belongs_to :availability_policy, :counter_cache => true
     belongs_to :indexing_scenario, :counter_cache => true
@@ -21,23 +23,28 @@ module Pidable
 
     scope :in_digital_library, where("#{self}.date_dl_ingest is not null").order("#{self}.date_dl_ingest ASC")
     scope :not_in_digital_library, where("#{self}.date_dl_ingest is null")
+
+    before_save :assign_pid
   end
 
-  def in_dl?
-    self.date_dl_ingest?
+  def assign_pid
+    self.pid = get_pid if self.pid.nil?
   end
 
   # Query Fedora to get next pid
-  def get_pid(object, pid_namespace = nil)
+  def get_pid(pid_namespace = nil)
     # Determine proper namespace
-    Rails.env ?  pid_namespace = 'uva-lib' : pid_namespace = 'test'
+    # Rails.env == 'production' ?  pid_namespace = 'uva-lib' : pid_namespace = 'test'
 
     repo = Rubydora.connect :url => 'http://localhost:8080/fedora', :user => 'fedoraAdmin', :password => 'fedoraAdmin'
     xml = Nokogiri.XML(repo.next_pid({:namespace => pid_namespace }))
     xml.remove_namespaces!
-    object.pid = xml.xpath('//pid').first.content
+    xml.xpath('//pid').first.content
   end
 
+  def in_dl?
+    date_dl_ingest?
+  end
 
 
 
