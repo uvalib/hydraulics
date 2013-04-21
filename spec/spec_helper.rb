@@ -10,6 +10,8 @@ require 'rspec/autorun'
 require 'shoulda-matchers'
 require 'shoulda/matchers/integrations/rspec'
 require 'factory_girl_rails'
+require 'webmock/rspec'
+
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
