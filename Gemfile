@@ -17,6 +17,7 @@ gem "foreigner"
 gem "ancestry"
 gem "validates_timeliness" # https://github.com/adzap/validates_timeliness
 gem "rubydora"
+gem 'webmock'
 
 # To use debugger
 # gem 'debugger'
