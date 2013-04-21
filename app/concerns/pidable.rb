@@ -13,16 +13,16 @@ module Pidable
     has_and_belongs_to_many :legacy_identifiers
 
     validates :availability_policy, :presence => {
-      :if => 'self.availability_policy_id',
+      :if => 'availability_policy_id',
       :message => "association with this AvailabilityPolicy is no longer valid because it no longer exists."
     }
     validates :indexing_scenario, :presence => {
-      :if => 'self.indexing_scenario_id',
+      :if => 'indexing_scenario_id',
       :message => "association with this IndexingScenario is no longer valid because it no longer exists."
     }
 
-    scope :in_digital_library, where("#{self}.date_dl_ingest is not null").order("#{self}.date_dl_ingest ASC")
-    scope :not_in_digital_library, where("#{self}.date_dl_ingest is null")
+    scope :in_digital_library, where("date_dl_ingest is not null").order("date_dl_ingest ASC")
+    scope :not_in_digital_library, where("date_dl_ingest is null")
 
     before_save :assign_pid
   end
