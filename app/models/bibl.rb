@@ -1,5 +1,6 @@
 class Bibl < ActiveRecord::Base
   include Pidable
+  include Workflowable
 
   CREATOR_NAME_TYPES = %w[corporate personal]
   YEAR_TYPES = %w[copyright creation publication]

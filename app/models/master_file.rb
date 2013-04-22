@@ -1,5 +1,6 @@
 class MasterFile < ActiveRecord::Base
   include Pidable
+  include Workflowable
 
   belongs_to :component, :counter_cache => true
   belongs_to :unit, :counter_cache => true

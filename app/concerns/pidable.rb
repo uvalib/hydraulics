@@ -9,7 +9,6 @@ module Pidable
     belongs_to :indexing_scenario, :counter_cache => true
     belongs_to :use_right, :counter_cache => true
 
-    has_many :automation_messages, :as => :messagable, :dependent => :destroy
     has_and_belongs_to_many :legacy_identifiers
 
     validates :availability_policy, :presence => {

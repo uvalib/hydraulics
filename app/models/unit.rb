@@ -1,4 +1,5 @@
 class Unit < ActiveRecord::Base
+  include Workflowable
 
   UNIT_STATUSES = %w[approved canceled condition copyright unapproved]
 
@@ -13,16 +14,15 @@ class Unit < ActiveRecord::Base
 
   has_many :master_files
   has_many :components, :through => :master_files, :uniq => true
-  has_many :automation_messages, :as => :messagable, :dependent => :destroy
 
   has_one :agency, :through => :order
   has_one :customer, :through => :order
 
   delegate :call_number, :title, :catalog_key, :barcode, :pid, :exemplar,
     :to => :bibl, :allow_nil => true, :prefix => true
-  delegate :id, :full_name, 
+  delegate :id, :full_name,
     :to => :customer, :allow_nil => true, :prefix => true
-  delegate :date_due,  
+  delegate :date_due,
     :to => :order, :allow_nil => true, :prefix => true
   delegate :deliverable_format, :deliverable_resolution, :deliverable_resolution_unit,
     :to => :intended_use, :allow_nil => true, :prefix => true
@@ -71,7 +71,7 @@ class Unit < ActiveRecord::Base
     :message => "association with this UseRight is no longer valid because it no longer exists."
   }
 
-  before_save do 
+  before_save do
     self.unit_status = "unapproved" if self.unit_status.nil? || self.unit_status.empty?
   end
 
