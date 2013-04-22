@@ -16,4 +16,8 @@ module Hydraulics
   def self.helpers_dir
     "#{root}/lib/helpers"
   end
+
+  def self.concerns_dir
+    "#{root}/app/concerns"
+  end
 end
