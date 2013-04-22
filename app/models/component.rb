@@ -1,5 +1,6 @@
 class Component < ActiveRecord::Base
   include Pidable
+  include Workflowable
 
   belongs_to :component_type, :counter_cache => true
 
