@@ -3,6 +3,7 @@ module Pidable
   extend ActiveSupport::Concern
 
   require 'rubydora'
+  require 'logger'
 
   included do
     belongs_to :availability_policy, :counter_cache => true
@@ -32,7 +33,32 @@ module Pidable
     self.pid = get_pid if self.pid.nil?
   end
 
-  # Query Fedora to get next pid
+  def create_fedora_object
+    if self.pid?
+      @@repo.ingest pid: self.pid, label: self.title
+    else
+      false
+    end
+  rescue
+    false
+  end
+
+  def exists_in_repo?
+    if self.pid?
+      @@repo.find(self.pid).is_a?(Rubydora::DigitalObject)
+    else
+      false
+    end
+  rescue Rubydora::RecordNotFound
+    false
+  end
+
+  def get_datastream_content(dsID)
+    @@repo.datastream_dissemination({pid: self.pid, dsid: dsID})
+  rescue RestClient::ResourceNotFound
+    nil
+  end
+
   def get_pid(pid_namespace = nil)
     xml = Nokogiri.XML(@@repo.next_pid({:namespace => pid_namespace }))
     xml.remove_namespaces!
@@ -43,25 +69,14 @@ module Pidable
     date_dl_ingest?
   end
 
-  # Returns a boolean indicating whether an object with the same PID as this one exists in the Fedora repo
-  def exists_in_repo?
-    if self.pid?
-      begin
-        @@repo.find("#{self.pid}").is_a?(Rubydora::DigitalObject)
-      rescue Rubydora::RecordNotFound
-        return false
-      end
-    end
-  end
-
   def remove_from_repo
     if self.pid?
-      begin
-        @@repo.purge_object pid: :self.pid
-      rescue Rubydora::RecordNotFound
-        return false
-      end
+      @@repo.purge_object pid: self.pid
+    else
+      false
     end
+  rescue Rubydora::RecordNotFound, RestClient::ResourceNotFound
+    false
   end
 
 
