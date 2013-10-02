@@ -1,6 +1,5 @@
 module Hydraulics
-  require "active_record/railtie"
-  require 'hydraulics/engine'
+  require 'hydraulics/engine' if defined?(Rails)
   require 'hydraulics/custom_validators'
   ActiveRecord::Base.send(:include, CustomValidators)
 
