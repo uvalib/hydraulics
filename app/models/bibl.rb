@@ -31,6 +31,7 @@ class Bibl < ActiveRecord::Base
   scope :not_approved, where(:is_approved => false)
   scope :has_exemplars, where("exemplar is NOT NULL")
   scope :need_exemplars, where("exemplar is NULL")
+  scope :uniq, select( 'DISTINCT id' )
 
   #------------------------------------------------------------------
   # delegation

@@ -46,6 +46,7 @@ class Order < ActiveRecord::Base
     }
   scope :unpaid, where("fee_actual > 0").joins(:invoices).where('`invoices`.date_fee_paid IS NULL').where('`invoices`.permanent_nonpayment IS false').where('`orders`.date_customer_notified > ?', 2.year.ago).order('fee_actual desc')
   default_scope :include => [:agency]
+  scope :uniq, select( 'DISTINCT id' )
    
   #------------------------------------------------------------------
   # validations
